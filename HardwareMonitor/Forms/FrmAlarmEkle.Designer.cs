@@ -41,23 +41,24 @@
             this.cmbDonanim.Items.AddRange(new object[] {
             "İşlemci Sıcaklığı",
             "RAM Kullanımı"});
-            this.cmbDonanim.Location = new System.Drawing.Point(86, 181);
+            this.cmbDonanim.Location = new System.Drawing.Point(244, 129);
             this.cmbDonanim.Name = "cmbDonanim";
             this.cmbDonanim.Size = new System.Drawing.Size(121, 24);
             this.cmbDonanim.TabIndex = 0;
+            this.cmbDonanim.SelectedIndexChanged += new System.EventHandler(this.cmbDonanim_SelectedIndexChanged);
             // 
             // txtSinirDeger
             // 
-            this.txtSinirDeger.Location = new System.Drawing.Point(270, 183);
+            this.txtSinirDeger.Location = new System.Drawing.Point(508, 129);
             this.txtSinirDeger.Name = "txtSinirDeger";
             this.txtSinirDeger.Size = new System.Drawing.Size(100, 22);
             this.txtSinirDeger.TabIndex = 1;
             // 
             // btnKaydet
             // 
-            this.btnKaydet.Location = new System.Drawing.Point(313, 307);
+            this.btnKaydet.Location = new System.Drawing.Point(392, 201);
             this.btnKaydet.Name = "btnKaydet";
-            this.btnKaydet.Size = new System.Drawing.Size(75, 23);
+            this.btnKaydet.Size = new System.Drawing.Size(80, 29);
             this.btnKaydet.TabIndex = 2;
             this.btnKaydet.Text = "Kaydet";
             this.btnKaydet.UseVisualStyleBackColor = true;
@@ -66,7 +67,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(95, 135);
+            this.label1.Location = new System.Drawing.Point(257, 95);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 16);
             this.label1.TabIndex = 3;
@@ -75,7 +76,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(267, 135);
+            this.label2.Location = new System.Drawing.Point(505, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 16);
             this.label2.TabIndex = 4;

@@ -14,6 +14,12 @@ namespace HardwareMonitor.Forms
     public partial class FrmAlarmEkle : Form
     {
         public AlarmKurali YeniKural { get; private set; }
+
+        Dictionary<string, int> varsayilanSinirlar = new Dictionary<string, int>()
+        {
+            { "İşlemci Sıcaklığı", 80 },
+            { "RAM Kullanımı", 85 }
+        };
         public FrmAlarmEkle()
         {
             InitializeComponent();
@@ -35,6 +41,16 @@ namespace HardwareMonitor.Forms
 
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void cmbDonanim_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string secilenDonanim = cmbDonanim.Text;
+
+            if (varsayilanSinirlar.ContainsKey(secilenDonanim))
+            {
+                txtSinirDeger.Text = varsayilanSinirlar[secilenDonanim].ToString();
+            }
         }
     }
 }

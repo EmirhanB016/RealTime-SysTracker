@@ -67,7 +67,7 @@
             // lblCpu
             // 
             this.lblCpu.AutoSize = true;
-            this.lblCpu.Location = new System.Drawing.Point(168, 110);
+            this.lblCpu.Location = new System.Drawing.Point(132, 37);
             this.lblCpu.Name = "lblCpu";
             this.lblCpu.Size = new System.Drawing.Size(44, 16);
             this.lblCpu.TabIndex = 2;
@@ -76,7 +76,7 @@
             // lblRam
             // 
             this.lblRam.AutoSize = true;
-            this.lblRam.Location = new System.Drawing.Point(168, 146);
+            this.lblRam.Location = new System.Drawing.Point(132, 73);
             this.lblRam.Name = "lblRam";
             this.lblRam.Size = new System.Drawing.Size(44, 16);
             this.lblRam.TabIndex = 3;
@@ -84,14 +84,14 @@
             // 
             // pbCpu
             // 
-            this.pbCpu.Location = new System.Drawing.Point(292, 103);
+            this.pbCpu.Location = new System.Drawing.Point(209, 30);
             this.pbCpu.Name = "pbCpu";
             this.pbCpu.Size = new System.Drawing.Size(100, 23);
             this.pbCpu.TabIndex = 4;
             // 
             // pbRam
             // 
-            this.pbRam.Location = new System.Drawing.Point(292, 139);
+            this.pbRam.Location = new System.Drawing.Point(209, 73);
             this.pbRam.Name = "pbRam";
             this.pbRam.Size = new System.Drawing.Size(100, 23);
             this.pbRam.TabIndex = 5;
@@ -109,9 +109,9 @@
             // 
             // btnAlarmEkle
             // 
-            this.btnAlarmEkle.Location = new System.Drawing.Point(341, 46);
+            this.btnAlarmEkle.Location = new System.Drawing.Point(209, 216);
             this.btnAlarmEkle.Name = "btnAlarmEkle";
-            this.btnAlarmEkle.Size = new System.Drawing.Size(127, 23);
+            this.btnAlarmEkle.Size = new System.Drawing.Size(130, 29);
             this.btnAlarmEkle.TabIndex = 7;
             this.btnAlarmEkle.Text = "Yeni Alarm Ekle";
             this.btnAlarmEkle.UseVisualStyleBackColor = true;
@@ -125,9 +125,9 @@
             // 
             // btnSil
             // 
-            this.btnSil.Location = new System.Drawing.Point(490, 102);
+            this.btnSil.Location = new System.Drawing.Point(522, 179);
             this.btnSil.Name = "btnSil";
-            this.btnSil.Size = new System.Drawing.Size(136, 23);
+            this.btnSil.Size = new System.Drawing.Size(116, 31);
             this.btnSil.TabIndex = 8;
             this.btnSil.Text = "Seçili Olanı Sil";
             this.btnSil.UseVisualStyleBackColor = true;
@@ -135,9 +135,9 @@
             // 
             // btnGeriAl
             // 
-            this.btnGeriAl.Location = new System.Drawing.Point(506, 139);
+            this.btnGeriAl.Location = new System.Drawing.Point(541, 216);
             this.btnGeriAl.Name = "btnGeriAl";
-            this.btnGeriAl.Size = new System.Drawing.Size(75, 23);
+            this.btnGeriAl.Size = new System.Drawing.Size(80, 29);
             this.btnGeriAl.TabIndex = 9;
             this.btnGeriAl.Text = "Geri Al";
             this.btnGeriAl.UseVisualStyleBackColor = true;
@@ -145,7 +145,7 @@
             // 
             // txtArama
             // 
-            this.txtArama.Location = new System.Drawing.Point(629, 139);
+            this.txtArama.Location = new System.Drawing.Point(374, 223);
             this.txtArama.Name = "txtArama";
             this.txtArama.Size = new System.Drawing.Size(100, 22);
             this.txtArama.TabIndex = 10;
@@ -154,7 +154,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(644, 102);
+            this.label3.Location = new System.Drawing.Point(380, 204);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(85, 16);
             this.label3.TabIndex = 11;
