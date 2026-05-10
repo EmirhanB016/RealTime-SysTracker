@@ -105,5 +105,27 @@ namespace HardwareMonitor
 
             MessageBox.Show($"{seciliKural.HedefDonanim} alarmı güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+            int anlikCpuSicaklik = rnd.Next(40, 95); 
+            int anlikRamKullanimi = rnd.Next(30, 85); 
+
+            islemciSicaklikKuyrugu.Enqueue(anlikCpuSicaklik);
+
+            if (islemciSicaklikKuyrugu.Count > 10)
+            {
+                islemciSicaklikKuyrugu.Dequeue();
+            }
+
+            int ortalamaSicaklik = (int)islemciSicaklikKuyrugu.Average();
+
+            pbCpu.Value = Math.Min(ortalamaSicaklik, 100);
+            pbRam.Value = Math.Min(anlikRamKullanimi, 100);
+
+            lblCpu.Text = $"{ortalamaSicaklik} °C";
+            lblRam.Text = $"%{anlikRamKullanimi}";
+        }
     }
 }

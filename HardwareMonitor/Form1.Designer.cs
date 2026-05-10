@@ -117,6 +117,12 @@
             this.btnAlarmEkle.UseVisualStyleBackColor = true;
             this.btnAlarmEkle.Click += new System.EventHandler(this.btnAlarmEkle_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // btnSil
             // 
             this.btnSil.Location = new System.Drawing.Point(490, 102);
