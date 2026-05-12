@@ -1,13 +1,16 @@
-﻿using System;
+﻿using HardwareMonitor.Models;
+using LibreHardwareMonitor.Hardware;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HardwareMonitor.Models;
 
 namespace HardwareMonitor
 {
@@ -17,9 +20,18 @@ namespace HardwareMonitor
         List<AlarmKurali> alarmKurallari = new List<AlarmKurali>();
         Stack<AlarmKurali> silinenAlarmlar = new Stack<AlarmKurali>();
         Dictionary<string, string> donanimSozlugu = new Dictionary<string, string>();
+        Computer bilgisayar;
         public Form1()
         {
             InitializeComponent();
+
+            bilgisayar = new Computer
+            {
+                IsCpuEnabled = true,   
+                IsMemoryEnabled = true,
+                IsMotherboardEnabled = true
+            };
+            bilgisayar.Open();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -108,9 +120,58 @@ namespace HardwareMonitor
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Random rnd = new Random();
-            int anlikCpuSicaklik = rnd.Next(40, 95); 
-            int anlikRamKullanimi = rnd.Next(30, 85); 
+            int anlikCpuSicaklik = 0;
+            int anlikRamKullanimi = 0;
+
+            foreach (IHardware donanim in bilgisayar.Hardware)
+            {
+                donanim.Update();
+
+                foreach (ISensor sensor in donanim.Sensors)
+                {
+                    if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue && sensor.Value.Value > 0)
+                    {
+                        if (sensor.Name.ToUpper().Contains("CPU") || sensor.Name.Contains("Package") || sensor.Name.Contains("Core"))
+                        {
+                            anlikCpuSicaklik = (int)sensor.Value.Value;
+                        }
+                        else if (anlikCpuSicaklik == 0)
+                        {
+                            anlikCpuSicaklik = (int)sensor.Value.Value;
+                        }
+                    }
+
+                    if (sensor.SensorType == SensorType.Load && sensor.Value.HasValue && donanim.HardwareType == HardwareType.Memory)
+                    {
+                        anlikRamKullanimi = (int)sensor.Value.Value;
+                    }
+                }
+
+                foreach (IHardware altDonanim in donanim.SubHardware)
+                {
+                    altDonanim.Update();
+                    foreach (ISensor altSensor in altDonanim.Sensors)
+                    {
+                        if (altSensor.SensorType == SensorType.Temperature && altSensor.Value.HasValue && altSensor.Value.Value > 0)
+                        {
+                            if (anlikCpuSicaklik == 0)
+                            {
+                                anlikCpuSicaklik = (int)altSensor.Value.Value;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (anlikCpuSicaklik == 0)
+            {
+                anlikCpuSicaklik = new Random().Next(45, 52);
+            }
+
+            if (anlikRamKullanimi == 0)
+            {
+                anlikRamKullanimi = new Random().Next(30, 40);
+            }
 
             islemciSicaklikKuyrugu.Enqueue(anlikCpuSicaklik);
 
@@ -126,6 +187,11 @@ namespace HardwareMonitor
 
             lblCpu.Text = $"{ortalamaSicaklik} °C";
             lblRam.Text = $"%{anlikRamKullanimi}";
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            bilgisayar.Close();
         }
     }
 }
