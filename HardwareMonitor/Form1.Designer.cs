@@ -179,7 +179,6 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Sistem Monitörü ve Loglama";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlarmlar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -27,9 +27,11 @@ namespace HardwareMonitor
 
             bilgisayar = new Computer
             {
-                IsCpuEnabled = true,   
+                IsCpuEnabled = true,
                 IsMemoryEnabled = true,
-                IsMotherboardEnabled = true
+                IsMotherboardEnabled = true,
+                IsGpuEnabled = true,         
+                IsControllerEnabled = true   
             };
             bilgisayar.Open();
         }
@@ -123,21 +125,24 @@ namespace HardwareMonitor
             int anlikCpuSicaklik = 0;
             int anlikRamKullanimi = 0;
 
+            int bulunanEnYuksekSicaklik = 0;
+
             foreach (IHardware donanim in bilgisayar.Hardware)
             {
                 donanim.Update();
 
                 foreach (ISensor sensor in donanim.Sensors)
                 {
-                    if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue && sensor.Value.Value > 0)
+                    if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
                     {
-                        if (sensor.Name.ToUpper().Contains("CPU") || sensor.Name.Contains("Package") || sensor.Name.Contains("Core"))
+                        int okunanDeger = (int)sensor.Value.Value;
+
+                        if (okunanDeger > 0 && okunanDeger < 115)
                         {
-                            anlikCpuSicaklik = (int)sensor.Value.Value;
-                        }
-                        else if (anlikCpuSicaklik == 0)
-                        {
-                            anlikCpuSicaklik = (int)sensor.Value.Value;
+                            if (okunanDeger > bulunanEnYuksekSicaklik)
+                            {
+                                bulunanEnYuksekSicaklik = okunanDeger;
+                            }
                         }
                     }
 
@@ -152,26 +157,22 @@ namespace HardwareMonitor
                     altDonanim.Update();
                     foreach (ISensor altSensor in altDonanim.Sensors)
                     {
-                        if (altSensor.SensorType == SensorType.Temperature && altSensor.Value.HasValue && altSensor.Value.Value > 0)
+                        if (altSensor.SensorType == SensorType.Temperature && altSensor.Value.HasValue)
                         {
-                            if (anlikCpuSicaklik == 0)
+                            int okunanDeger = (int)altSensor.Value.Value;
+                            if (okunanDeger > 0 && okunanDeger < 115)
                             {
-                                anlikCpuSicaklik = (int)altSensor.Value.Value;
+                                if (okunanDeger > bulunanEnYuksekSicaklik)
+                                {
+                                    bulunanEnYuksekSicaklik = okunanDeger;
+                                }
                             }
                         }
                     }
                 }
             }
 
-            if (anlikCpuSicaklik == 0)
-            {
-                anlikCpuSicaklik = new Random().Next(45, 52);
-            }
-
-            if (anlikRamKullanimi == 0)
-            {
-                anlikRamKullanimi = new Random().Next(30, 40);
-            }
+            anlikCpuSicaklik = bulunanEnYuksekSicaklik;
 
             islemciSicaklikKuyrugu.Enqueue(anlikCpuSicaklik);
 
@@ -187,11 +188,6 @@ namespace HardwareMonitor
 
             lblCpu.Text = $"{ortalamaSicaklik} °C";
             lblRam.Text = $"%{anlikRamKullanimi}";
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            bilgisayar.Close();
         }
     }
 }
