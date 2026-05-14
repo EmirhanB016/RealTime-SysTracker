@@ -136,10 +136,19 @@ namespace HardwareMonitor
                         if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
                         {
                             string isim = sensor.Name.ToUpper();
-                            if (isim.Contains("PACKAGE") || isim.Contains("CORE") || isim.Contains("TCTL/TDIE"))
+                            int okunanDeger = (int)sensor.Value.Value;
+
+                            if (isim.Contains("TCTL") || isim.Contains("TDIE") || isim.Contains("HOTSPOT"))
                             {
-                                anlikCpuSicaklik = (int)sensor.Value.Value;
-                                break; 
+                                anlikCpuSicaklik = okunanDeger;
+                                break;
+                            }
+                            else if (isim.Contains("PACKAGE") || isim.Contains("CORE"))
+                            {
+                                if (okunanDeger > anlikCpuSicaklik && okunanDeger < 115)
+                                {
+                                    anlikCpuSicaklik = okunanDeger;
+                                }
                             }
                         }
                     }
