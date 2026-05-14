@@ -125,69 +125,62 @@ namespace HardwareMonitor
             int anlikCpuSicaklik = 0;
             int anlikRamKullanimi = 0;
 
-            int bulunanEnYuksekSicaklik = 0;
-
             foreach (IHardware donanim in bilgisayar.Hardware)
             {
                 donanim.Update();
 
-                foreach (ISensor sensor in donanim.Sensors)
+                if (donanim.HardwareType == HardwareType.Cpu)
                 {
-                    if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
+                    foreach (ISensor sensor in donanim.Sensors)
                     {
-                        int okunanDeger = (int)sensor.Value.Value;
-
-                        if (okunanDeger > 0 && okunanDeger < 115)
+                        if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
                         {
-                            if (okunanDeger > bulunanEnYuksekSicaklik)
+                            string isim = sensor.Name.ToUpper();
+                            if (isim.Contains("PACKAGE") || isim.Contains("CORE") || isim.Contains("TCTL/TDIE"))
                             {
-                                bulunanEnYuksekSicaklik = okunanDeger;
+                                anlikCpuSicaklik = (int)sensor.Value.Value;
+                                break; 
                             }
                         }
                     }
+                }
 
-                    if (sensor.SensorType == SensorType.Load && sensor.Value.HasValue && donanim.HardwareType == HardwareType.Memory)
+                if (anlikCpuSicaklik == 0 && (donanim.HardwareType == HardwareType.GpuAmd || donanim.HardwareType == HardwareType.GpuNvidia))
+                {
+                    foreach (ISensor sensor in donanim.Sensors)
                     {
-                        anlikRamKullanimi = (int)sensor.Value.Value;
+                        if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
+                        {
+                            anlikCpuSicaklik = (int)sensor.Value.Value;
+                            break;
+                        }
                     }
                 }
 
-                foreach (IHardware altDonanim in donanim.SubHardware)
+                if (donanim.HardwareType == HardwareType.Memory)
                 {
-                    altDonanim.Update();
-                    foreach (ISensor altSensor in altDonanim.Sensors)
+                    foreach (ISensor sensor in donanim.Sensors)
                     {
-                        if (altSensor.SensorType == SensorType.Temperature && altSensor.Value.HasValue)
+                        if (sensor.SensorType == SensorType.Load && sensor.Value.HasValue)
                         {
-                            int okunanDeger = (int)altSensor.Value.Value;
-                            if (okunanDeger > 0 && okunanDeger < 115)
-                            {
-                                if (okunanDeger > bulunanEnYuksekSicaklik)
-                                {
-                                    bulunanEnYuksekSicaklik = okunanDeger;
-                                }
-                            }
+                            anlikRamKullanimi = (int)sensor.Value.Value;
+                            break;
                         }
                     }
                 }
             }
 
-            anlikCpuSicaklik = bulunanEnYuksekSicaklik;
+            lblCpu.Text = $"{anlikCpuSicaklik} °C";
 
-            islemciSicaklikKuyrugu.Enqueue(anlikCpuSicaklik);
+            if (anlikCpuSicaklik >= 75) lblCpu.ForeColor = Color.Red;
+            else if (anlikCpuSicaklik >= 60) lblCpu.ForeColor = Color.DarkOrange;
+            else lblCpu.ForeColor = Color.Green;
 
-            if (islemciSicaklikKuyrugu.Count > 10)
-            {
-                islemciSicaklikKuyrugu.Dequeue();
-            }
-
-            int ortalamaSicaklik = (int)islemciSicaklikKuyrugu.Average();
-
-            pbCpu.Value = Math.Min(ortalamaSicaklik, 100);
-            pbRam.Value = Math.Min(anlikRamKullanimi, 100);
-
-            lblCpu.Text = $"{ortalamaSicaklik} °C";
             lblRam.Text = $"%{anlikRamKullanimi}";
+
+            if (anlikRamKullanimi >= 80) lblRam.ForeColor = Color.Red;
+            else if (anlikRamKullanimi >= 60) lblRam.ForeColor = Color.DarkOrange;
+            else lblRam.ForeColor = Color.Green;
         }
     }
 }

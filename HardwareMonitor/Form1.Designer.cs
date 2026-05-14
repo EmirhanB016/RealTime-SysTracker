@@ -33,8 +33,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblCpu = new System.Windows.Forms.Label();
             this.lblRam = new System.Windows.Forms.Label();
-            this.pbCpu = new System.Windows.Forms.ProgressBar();
-            this.pbRam = new System.Windows.Forms.ProgressBar();
             this.dgvAlarmlar = new System.Windows.Forms.DataGridView();
             this.btnAlarmEkle = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -81,20 +79,6 @@
             this.lblRam.Size = new System.Drawing.Size(44, 16);
             this.lblRam.TabIndex = 3;
             this.lblRam.Text = "label4";
-            // 
-            // pbCpu
-            // 
-            this.pbCpu.Location = new System.Drawing.Point(209, 30);
-            this.pbCpu.Name = "pbCpu";
-            this.pbCpu.Size = new System.Drawing.Size(100, 23);
-            this.pbCpu.TabIndex = 4;
-            // 
-            // pbRam
-            // 
-            this.pbRam.Location = new System.Drawing.Point(209, 73);
-            this.pbRam.Name = "pbRam";
-            this.pbRam.Size = new System.Drawing.Size(100, 23);
-            this.pbRam.TabIndex = 5;
             // 
             // dgvAlarmlar
             // 
@@ -171,8 +155,6 @@
             this.Controls.Add(this.btnSil);
             this.Controls.Add(this.btnAlarmEkle);
             this.Controls.Add(this.dgvAlarmlar);
-            this.Controls.Add(this.pbRam);
-            this.Controls.Add(this.pbCpu);
             this.Controls.Add(this.lblRam);
             this.Controls.Add(this.lblCpu);
             this.Controls.Add(this.label2);
@@ -191,8 +173,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblCpu;
         private System.Windows.Forms.Label lblRam;
-        private System.Windows.Forms.ProgressBar pbCpu;
-        private System.Windows.Forms.ProgressBar pbRam;
         private System.Windows.Forms.DataGridView dgvAlarmlar;
         private System.Windows.Forms.Button btnAlarmEkle;
         private System.Windows.Forms.Timer timer1;
