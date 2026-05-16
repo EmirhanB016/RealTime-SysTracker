@@ -11,7 +11,8 @@ namespace HardwareMonitor.Models
         public Guid Id { get; set; } 
         public string HedefDonanim { get; set; } 
         public double SinirDeger { get; set; } 
-        public bool AktifMi { get; set; } 
+        public bool AktifMi { get; set; }
+        public int KalanBildirimHakki { get; set; }
 
         public AlarmKurali()
         {

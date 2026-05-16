@@ -71,7 +71,7 @@
             // lblCpu
             // 
             this.lblCpu.AutoSize = true;
-            this.lblCpu.Location = new System.Drawing.Point(164, 37);
+            this.lblCpu.Location = new System.Drawing.Point(186, 37);
             this.lblCpu.Name = "lblCpu";
             this.lblCpu.Size = new System.Drawing.Size(44, 16);
             this.lblCpu.TabIndex = 2;
@@ -80,7 +80,7 @@
             // lblRam
             // 
             this.lblRam.AutoSize = true;
-            this.lblRam.Location = new System.Drawing.Point(164, 73);
+            this.lblRam.Location = new System.Drawing.Point(186, 73);
             this.lblRam.Name = "lblRam";
             this.lblRam.Size = new System.Drawing.Size(44, 16);
             this.lblRam.TabIndex = 3;
@@ -89,11 +89,11 @@
             // dgvAlarmlar
             // 
             this.dgvAlarmlar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAlarmlar.Location = new System.Drawing.Point(108, 260);
+            this.dgvAlarmlar.Location = new System.Drawing.Point(29, 260);
             this.dgvAlarmlar.Name = "dgvAlarmlar";
             this.dgvAlarmlar.RowHeadersWidth = 51;
             this.dgvAlarmlar.RowTemplate.Height = 24;
-            this.dgvAlarmlar.Size = new System.Drawing.Size(631, 178);
+            this.dgvAlarmlar.Size = new System.Drawing.Size(733, 178);
             this.dgvAlarmlar.TabIndex = 6;
             this.dgvAlarmlar.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAlarmlar_CellDoubleClick);
             // 
@@ -155,23 +155,23 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(26, 111);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(89, 16);
+            this.label4.Size = new System.Drawing.Size(105, 16);
             this.label4.TabIndex = 12;
-            this.label4.Text = "CPU Yüzdesi:";
+            this.label4.Text = "İşlemci Yükü (%)";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 146);
+            this.label5.Location = new System.Drawing.Point(14, 146);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(128, 16);
+            this.label5.Size = new System.Drawing.Size(149, 16);
             this.label5.TabIndex = 13;
-            this.label5.Text = "Ekran Kartı Sıcaklığı:";
+            this.label5.Text = "Ekran Kartı Sıcaklığı (°C)";
             // 
             // lblCpuYuk
             // 
             this.lblCpuYuk.AutoSize = true;
-            this.lblCpuYuk.Location = new System.Drawing.Point(164, 111);
+            this.lblCpuYuk.Location = new System.Drawing.Point(186, 111);
             this.lblCpuYuk.Name = "lblCpuYuk";
             this.lblCpuYuk.Size = new System.Drawing.Size(44, 16);
             this.lblCpuYuk.TabIndex = 14;
@@ -180,7 +180,7 @@
             // lblGpuSicaklik
             // 
             this.lblGpuSicaklik.AutoSize = true;
-            this.lblGpuSicaklik.Location = new System.Drawing.Point(164, 146);
+            this.lblGpuSicaklik.Location = new System.Drawing.Point(186, 146);
             this.lblGpuSicaklik.Name = "lblGpuSicaklik";
             this.lblGpuSicaklik.Size = new System.Drawing.Size(44, 16);
             this.lblGpuSicaklik.TabIndex = 15;

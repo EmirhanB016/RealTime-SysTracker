@@ -33,6 +33,9 @@
             this.btnKaydet = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.numBildirimSayisi = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.numBildirimSayisi)).BeginInit();
             this.SuspendLayout();
             // 
             // cmbDonanim
@@ -43,7 +46,7 @@
             "İşlemci Yükü (%)",
             "RAM Kullanımı (%)",
             "Ekran Kartı Sıcaklığı (°C)"});
-            this.cmbDonanim.Location = new System.Drawing.Point(217, 129);
+            this.cmbDonanim.Location = new System.Drawing.Point(85, 129);
             this.cmbDonanim.Name = "cmbDonanim";
             this.cmbDonanim.Size = new System.Drawing.Size(187, 24);
             this.cmbDonanim.TabIndex = 0;
@@ -51,14 +54,14 @@
             // 
             // txtSinirDeger
             // 
-            this.txtSinirDeger.Location = new System.Drawing.Point(508, 129);
+            this.txtSinirDeger.Location = new System.Drawing.Point(365, 129);
             this.txtSinirDeger.Name = "txtSinirDeger";
             this.txtSinirDeger.Size = new System.Drawing.Size(136, 22);
             this.txtSinirDeger.TabIndex = 1;
             // 
             // btnKaydet
             // 
-            this.btnKaydet.Location = new System.Drawing.Point(400, 201);
+            this.btnKaydet.Location = new System.Drawing.Point(399, 200);
             this.btnKaydet.Name = "btnKaydet";
             this.btnKaydet.Size = new System.Drawing.Size(80, 29);
             this.btnKaydet.TabIndex = 2;
@@ -69,7 +72,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(257, 95);
+            this.label1.Location = new System.Drawing.Point(130, 95);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 16);
             this.label1.TabIndex = 3;
@@ -78,17 +81,50 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(520, 95);
+            this.label2.Location = new System.Drawing.Point(385, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 16);
             this.label2.TabIndex = 4;
             this.label2.Text = "Sınır Değer Girin";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(596, 95);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(91, 16);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Bildirim Sayısı";
+            // 
+            // numBildirimSayisi
+            // 
+            this.numBildirimSayisi.Location = new System.Drawing.Point(585, 129);
+            this.numBildirimSayisi.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numBildirimSayisi.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numBildirimSayisi.Name = "numBildirimSayisi";
+            this.numBildirimSayisi.Size = new System.Drawing.Size(120, 22);
+            this.numBildirimSayisi.TabIndex = 6;
+            this.numBildirimSayisi.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // FrmAlarmEkle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.numBildirimSayisi);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnKaydet);
@@ -96,6 +132,7 @@
             this.Controls.Add(this.cmbDonanim);
             this.Name = "FrmAlarmEkle";
             this.Text = "Yeni Alarm Kuralı Ekle";
+            ((System.ComponentModel.ISupportInitialize)(this.numBildirimSayisi)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -108,5 +145,7 @@
         private System.Windows.Forms.Button btnKaydet;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown numBildirimSayisi;
     }
 }

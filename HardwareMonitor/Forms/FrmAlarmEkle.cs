@@ -14,7 +14,7 @@ namespace HardwareMonitor.Forms
     public partial class FrmAlarmEkle : Form
     {
         public AlarmKurali YeniKural { get; private set; }
-
+        
         Dictionary<string, int> varsayilanSinirlar = new Dictionary<string, int>()
         {
             { "İşlemci Sıcaklığı (°C)", 80 },
@@ -38,7 +38,8 @@ namespace HardwareMonitor.Forms
             YeniKural = new AlarmKurali
             {
                 HedefDonanim = cmbDonanim.Text,
-                SinirDeger = Convert.ToDouble(txtSinirDeger.Text)
+                SinirDeger = Convert.ToDouble(txtSinirDeger.Text),
+                KalanBildirimHakki = (int)numBildirimSayisi.Value
             };
 
             this.DialogResult = DialogResult.OK;

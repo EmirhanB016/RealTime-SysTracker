@@ -65,6 +65,37 @@ namespace HardwareMonitor
 
             dgvAlarmlar.ReadOnly = true;
             dgvAlarmlar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            if (dgvAlarmlar.Columns["Id"] != null)
+            {
+                dgvAlarmlar.Columns["Id"].Visible = false;
+            }
+
+            if (dgvAlarmlar.Columns["HedefDonanim"] != null)
+                dgvAlarmlar.Columns["HedefDonanim"].HeaderText = "Hedef Donanım";
+
+            if (dgvAlarmlar.Columns["SinirDeger"] != null)
+                dgvAlarmlar.Columns["SinirDeger"].HeaderText = "Sınır Değer";
+
+            if (dgvAlarmlar.Columns["AktifMi"] != null)
+                dgvAlarmlar.Columns["AktifMi"].HeaderText = "Aktif mi?";
+
+            if (dgvAlarmlar.Columns["KalanBildirimHakki"] != null)
+                dgvAlarmlar.Columns["KalanBildirimHakki"].HeaderText = "Kalan Bildirim";
+
+            dgvAlarmlar.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            if (dgvAlarmlar.Columns["AktifMi"] != null)
+                dgvAlarmlar.Columns["AktifMi"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            if (dgvAlarmlar.Columns["SinirDeger"] != null)
+                dgvAlarmlar.Columns["SinirDeger"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            if (dgvAlarmlar.Columns["KalanBildirimHakki"] != null)
+                dgvAlarmlar.Columns["KalanBildirimHakki"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            if (dgvAlarmlar.Columns["HedefDonanim"] != null)
+                dgvAlarmlar.Columns["HedefDonanim"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
 
         private void btnSil_Click(object sender, EventArgs e)
@@ -122,7 +153,7 @@ namespace HardwareMonitor
 
             AlarmlariListele();
 
-            MessageBox.Show($"{seciliKural.HedefDonanim} alarmı güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"'{seciliKural.HedefDonanim}' alarmı güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private async void timer1_Tick(object sender, EventArgs e)
@@ -245,10 +276,11 @@ namespace HardwareMonitor
                         break;
                 }
 
-                if (alarmTetiklendiMi)
+                if (alarmTetiklendiMi && alarm.KalanBildirimHakki > 0)
                 {
                     if ((DateTime.Now - sonBildirimZamani).TotalSeconds >= 15)
                     {
+                        systemNotification.Icon = SystemIcons.Warning;
                         systemNotification.Visible = true;
                         systemNotification.BalloonTipTitle = "SİSTEM ALARMI!";
                         systemNotification.BalloonTipText = bildirimMesaji;
@@ -257,6 +289,8 @@ namespace HardwareMonitor
                         systemNotification.ShowBalloonTip(3000);
 
                         sonBildirimZamani = DateTime.Now;
+
+                        alarm.KalanBildirimHakki--;
                     }
                     break;
                 }
