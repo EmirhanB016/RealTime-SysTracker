@@ -39,11 +39,13 @@
             // 
             this.cmbDonanim.FormattingEnabled = true;
             this.cmbDonanim.Items.AddRange(new object[] {
-            "İşlemci Sıcaklığı",
-            "RAM Kullanımı"});
-            this.cmbDonanim.Location = new System.Drawing.Point(244, 129);
+            "İşlemci Sıcaklığı (°C)",
+            "İşlemci Yükü (%)",
+            "RAM Kullanımı (%)",
+            "Ekran Kartı Sıcaklığı (°C)"});
+            this.cmbDonanim.Location = new System.Drawing.Point(217, 129);
             this.cmbDonanim.Name = "cmbDonanim";
-            this.cmbDonanim.Size = new System.Drawing.Size(121, 24);
+            this.cmbDonanim.Size = new System.Drawing.Size(187, 24);
             this.cmbDonanim.TabIndex = 0;
             this.cmbDonanim.SelectedIndexChanged += new System.EventHandler(this.cmbDonanim_SelectedIndexChanged);
             // 
@@ -51,12 +53,12 @@
             // 
             this.txtSinirDeger.Location = new System.Drawing.Point(508, 129);
             this.txtSinirDeger.Name = "txtSinirDeger";
-            this.txtSinirDeger.Size = new System.Drawing.Size(100, 22);
+            this.txtSinirDeger.Size = new System.Drawing.Size(136, 22);
             this.txtSinirDeger.TabIndex = 1;
             // 
             // btnKaydet
             // 
-            this.btnKaydet.Location = new System.Drawing.Point(392, 201);
+            this.btnKaydet.Location = new System.Drawing.Point(400, 201);
             this.btnKaydet.Name = "btnKaydet";
             this.btnKaydet.Size = new System.Drawing.Size(80, 29);
             this.btnKaydet.TabIndex = 2;
@@ -76,7 +78,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(505, 95);
+            this.label2.Location = new System.Drawing.Point(520, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 16);
             this.label2.TabIndex = 4;

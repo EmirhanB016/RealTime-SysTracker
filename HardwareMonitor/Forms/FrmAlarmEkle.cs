@@ -17,8 +17,10 @@ namespace HardwareMonitor.Forms
 
         Dictionary<string, int> varsayilanSinirlar = new Dictionary<string, int>()
         {
-            { "İşlemci Sıcaklığı", 80 },
-            { "RAM Kullanımı", 85 }
+            { "İşlemci Sıcaklığı (°C)", 80 },
+            { "İşlemci Yükü (%)", 85 },
+            { "Ekran Kartı Sıcaklığı (°C)", 75 },
+            { "RAM Kullanımı (%)", 80 }
         };
         public FrmAlarmEkle()
         {

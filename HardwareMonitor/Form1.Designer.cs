@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblCpu = new System.Windows.Forms.Label();
@@ -44,6 +45,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lblCpuYuk = new System.Windows.Forms.Label();
             this.lblGpuSicaklik = new System.Windows.Forms.Label();
+            this.systemNotification = new System.Windows.Forms.NotifyIcon(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlarmlar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,9 +54,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(26, 37);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 16);
+            this.label1.Size = new System.Drawing.Size(127, 16);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Anlık CPU:";
+            this.label1.Text = "İşlemci Sıcaklığı (°C)";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
@@ -62,9 +64,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(26, 73);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(96, 16);
+            this.label2.Size = new System.Drawing.Size(116, 16);
             this.label2.TabIndex = 1;
-            this.label2.Text = "RAM Kullanımı:";
+            this.label2.Text = "RAM Kullanımı (%)";
             // 
             // lblCpu
             // 
@@ -97,9 +99,9 @@
             // 
             // btnAlarmEkle
             // 
-            this.btnAlarmEkle.Location = new System.Drawing.Point(209, 216);
+            this.btnAlarmEkle.Location = new System.Drawing.Point(189, 216);
             this.btnAlarmEkle.Name = "btnAlarmEkle";
-            this.btnAlarmEkle.Size = new System.Drawing.Size(130, 29);
+            this.btnAlarmEkle.Size = new System.Drawing.Size(150, 29);
             this.btnAlarmEkle.TabIndex = 7;
             this.btnAlarmEkle.Text = "Yeni Alarm Ekle";
             this.btnAlarmEkle.UseVisualStyleBackColor = true;
@@ -113,7 +115,7 @@
             // 
             // btnSil
             // 
-            this.btnSil.Location = new System.Drawing.Point(522, 179);
+            this.btnSil.Location = new System.Drawing.Point(562, 179);
             this.btnSil.Name = "btnSil";
             this.btnSil.Size = new System.Drawing.Size(116, 31);
             this.btnSil.TabIndex = 8;
@@ -123,7 +125,7 @@
             // 
             // btnGeriAl
             // 
-            this.btnGeriAl.Location = new System.Drawing.Point(541, 216);
+            this.btnGeriAl.Location = new System.Drawing.Point(579, 216);
             this.btnGeriAl.Name = "btnGeriAl";
             this.btnGeriAl.Size = new System.Drawing.Size(80, 29);
             this.btnGeriAl.TabIndex = 9;
@@ -135,14 +137,14 @@
             // 
             this.txtArama.Location = new System.Drawing.Point(374, 223);
             this.txtArama.Name = "txtArama";
-            this.txtArama.Size = new System.Drawing.Size(100, 22);
+            this.txtArama.Size = new System.Drawing.Size(139, 22);
             this.txtArama.TabIndex = 10;
             this.txtArama.TextChanged += new System.EventHandler(this.txtArama_TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(380, 204);
+            this.label3.Location = new System.Drawing.Point(400, 204);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(85, 16);
             this.label3.TabIndex = 11;
@@ -183,6 +185,12 @@
             this.lblGpuSicaklik.Size = new System.Drawing.Size(44, 16);
             this.lblGpuSicaklik.TabIndex = 15;
             this.lblGpuSicaklik.Text = "label7";
+            // 
+            // systemNotification
+            // 
+            this.systemNotification.Icon = ((System.Drawing.Icon)(resources.GetObject("systemNotification.Icon")));
+            this.systemNotification.Text = "notifyIcon1";
+            this.systemNotification.Visible = true;
             // 
             // Form1
             // 
@@ -228,6 +236,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblCpuYuk;
         private System.Windows.Forms.Label lblGpuSicaklik;
+        private System.Windows.Forms.NotifyIcon systemNotification;
     }
 }
 

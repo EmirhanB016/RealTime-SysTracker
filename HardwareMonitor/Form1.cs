@@ -20,6 +20,7 @@ namespace HardwareMonitor
         List<AlarmKurali> alarmKurallari = new List<AlarmKurali>();
         Stack<AlarmKurali> silinenAlarmlar = new Stack<AlarmKurali>();
         Dictionary<string, string> donanimSozlugu = new Dictionary<string, string>();
+        DateTime sonBildirimZamani = DateTime.MinValue;
         Computer bilgisayar;
 
         public Form1()
@@ -124,82 +125,85 @@ namespace HardwareMonitor
             MessageBox.Show($"{seciliKural.HedefDonanim} alarmı güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private async void timer1_Tick(object sender, EventArgs e)
         {
             int anlikCpuSicaklik = 0;
             int anlikCpuYuk = 0;
             int anlikGpuSicaklik = 0;
             int anlikRamKullanimi = 0;
 
-            foreach (IHardware donanim in bilgisayar.Hardware)
+            await Task.Run(() =>
             {
-                donanim.Update();
-
-                if (donanim.HardwareType == HardwareType.Cpu)
+                foreach (IHardware donanim in bilgisayar.Hardware)
                 {
-                    foreach (ISensor sensor in donanim.Sensors)
+                    donanim.Update();
+
+                    if (donanim.HardwareType == HardwareType.Cpu)
                     {
-                        string isim = sensor.Name.ToUpper();
-
-                        if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
+                        foreach (ISensor sensor in donanim.Sensors)
                         {
-                            if (isim.Contains("PACKAGE") || isim.Contains("CORE") || isim.Contains("TCTL/TDIE"))
-                            {
-                                int okunan = (int)sensor.Value.Value;
-                                if (okunan > anlikCpuSicaklik && okunan < 115)
-                                {
-                                    anlikCpuSicaklik = okunan;
-                                }
-                            }
-                        }
-
-                        if (sensor.SensorType == SensorType.Load && sensor.Value.HasValue)
-                        {
-                            if (isim.Contains("TOTAL"))
-                            {
-                                anlikCpuYuk = (int)sensor.Value.Value;
-                            }
-                        }
-                    }
-                }
-
-                if (donanim.HardwareType == HardwareType.GpuAmd || donanim.HardwareType == HardwareType.GpuNvidia)
-                {
-                    foreach (ISensor sensor in donanim.Sensors)
-                    {
-                        if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
-                        {
-                            int okunanGpu = (int)sensor.Value.Value;
                             string isim = sensor.Name.ToUpper();
 
-                            if (anlikCpuSicaklik == 0)
+                            if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
                             {
-                                anlikCpuSicaklik = okunanGpu;
+                                if (isim.Contains("PACKAGE") || isim.Contains("CORE") || isim.Contains("TCTL/TDIE"))
+                                {
+                                    int okunan = (int)sensor.Value.Value;
+                                    if (okunan > anlikCpuSicaklik && okunan < 115)
+                                    {
+                                        anlikCpuSicaklik = okunan;
+                                    }
+                                }
                             }
 
-                            if (isim.Contains("CORE") || isim.Contains("GPU"))
+                            if (sensor.SensorType == SensorType.Load && sensor.Value.HasValue)
                             {
-                                if (okunanGpu > anlikGpuSicaklik && okunanGpu < 115)
+                                if (isim.Contains("TOTAL"))
                                 {
-                                    anlikGpuSicaklik = okunanGpu;
+                                    anlikCpuYuk = (int)sensor.Value.Value;
                                 }
                             }
                         }
                     }
-                }
 
-                if (donanim.HardwareType == HardwareType.Memory)
-                {
-                    foreach (ISensor sensor in donanim.Sensors)
+                    if (donanim.HardwareType == HardwareType.GpuAmd || donanim.HardwareType == HardwareType.GpuNvidia)
                     {
-                        if (sensor.SensorType == SensorType.Load && sensor.Value.HasValue)
+                        foreach (ISensor sensor in donanim.Sensors)
                         {
-                            anlikRamKullanimi = (int)sensor.Value.Value;
+                            if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
+                            {
+                                int okunanGpu = (int)sensor.Value.Value;
+                                string isim = sensor.Name.ToUpper();
+
+                                if (anlikCpuSicaklik == 0)
+                                {
+                                    anlikCpuSicaklik = okunanGpu;
+                                }
+
+                                if (isim.Contains("CORE") || isim.Contains("GPU"))
+                                {
+                                    if (okunanGpu > anlikGpuSicaklik && okunanGpu < 115)
+                                    {
+                                        anlikGpuSicaklik = okunanGpu;
+                                    }
+                                }
+                            }
                         }
                     }
-                }
-            }
 
+                    if (donanim.HardwareType == HardwareType.Memory)
+                    {
+                        foreach (ISensor sensor in donanim.Sensors)
+                        {
+                            if (sensor.SensorType == SensorType.Load && sensor.Value.HasValue)
+                            {
+                                anlikRamKullanimi = (int)sensor.Value.Value;
+                            }
+                        }
+                    }
+
+                }
+            });
             lblCpu.Text = $"{anlikCpuSicaklik} °C";
             if (anlikCpuSicaklik >= 80) lblCpu.ForeColor = Color.Red;
             else if (anlikCpuSicaklik >= 65) lblCpu.ForeColor = Color.DarkOrange;
@@ -219,6 +223,44 @@ namespace HardwareMonitor
             if (anlikRamKullanimi >= 80) lblRam.ForeColor = Color.Red;
             else if (anlikRamKullanimi >= 60) lblRam.ForeColor = Color.DarkOrange;
             else lblRam.ForeColor = Color.Green;
+
+            foreach (var alarm in alarmKurallari)
+            {
+                bool alarmTetiklendiMi = false;
+                string bildirimMesaji = "";
+
+                switch (alarm.HedefDonanim)
+                {
+                    case "İşlemci Sıcaklığı (°C)":
+                        if (anlikCpuSicaklik >= alarm.SinirDeger) { alarmTetiklendiMi = true; bildirimMesaji = $"Kritik CPU Sıcaklığı: {anlikCpuSicaklik}°C"; }
+                        break;
+                    case "İşlemci Yükü (%)":
+                        if (anlikCpuYuk >= alarm.SinirDeger) { alarmTetiklendiMi = true; bildirimMesaji = $"Yüksek CPU Yükü: %{anlikCpuYuk}"; }
+                        break;
+                    case "Ekran Kartı Sıcaklığı (°C)":
+                        if (anlikGpuSicaklik >= alarm.SinirDeger) { alarmTetiklendiMi = true; bildirimMesaji = $"Kritik GPU Sıcaklığı: {anlikGpuSicaklik}°C"; }
+                        break;
+                    case "RAM Kullanımı (%)":
+                        if (anlikRamKullanimi >= alarm.SinirDeger) { alarmTetiklendiMi = true; bildirimMesaji = $"Yüksek RAM Kullanımı: %{anlikRamKullanimi}"; }
+                        break;
+                }
+
+                if (alarmTetiklendiMi)
+                {
+                    if ((DateTime.Now - sonBildirimZamani).TotalSeconds >= 15)
+                    {
+                        systemNotification.Visible = true;
+                        systemNotification.BalloonTipTitle = "SİSTEM ALARMI!";
+                        systemNotification.BalloonTipText = bildirimMesaji;
+                        systemNotification.BalloonTipIcon = ToolTipIcon.Warning;
+
+                        systemNotification.ShowBalloonTip(3000);
+
+                        sonBildirimZamani = DateTime.Now;
+                    }
+                    break;
+                }
+            }
         }
     }
 }
