@@ -40,6 +40,10 @@
             this.btnGeriAl = new System.Windows.Forms.Button();
             this.txtArama = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblCpuYuk = new System.Windows.Forms.Label();
+            this.lblGpuSicaklik = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlarmlar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,7 +69,7 @@
             // lblCpu
             // 
             this.lblCpu.AutoSize = true;
-            this.lblCpu.Location = new System.Drawing.Point(132, 37);
+            this.lblCpu.Location = new System.Drawing.Point(164, 37);
             this.lblCpu.Name = "lblCpu";
             this.lblCpu.Size = new System.Drawing.Size(44, 16);
             this.lblCpu.TabIndex = 2;
@@ -74,7 +78,7 @@
             // lblRam
             // 
             this.lblRam.AutoSize = true;
-            this.lblRam.Location = new System.Drawing.Point(132, 73);
+            this.lblRam.Location = new System.Drawing.Point(164, 73);
             this.lblRam.Name = "lblRam";
             this.lblRam.Size = new System.Drawing.Size(44, 16);
             this.lblRam.TabIndex = 3;
@@ -144,11 +148,51 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "Donanım Ara";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(26, 111);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(89, 16);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "CPU Yüzdesi:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 146);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(128, 16);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Ekran Kartı Sıcaklığı:";
+            // 
+            // lblCpuYuk
+            // 
+            this.lblCpuYuk.AutoSize = true;
+            this.lblCpuYuk.Location = new System.Drawing.Point(164, 111);
+            this.lblCpuYuk.Name = "lblCpuYuk";
+            this.lblCpuYuk.Size = new System.Drawing.Size(44, 16);
+            this.lblCpuYuk.TabIndex = 14;
+            this.lblCpuYuk.Text = "label6";
+            // 
+            // lblGpuSicaklik
+            // 
+            this.lblGpuSicaklik.AutoSize = true;
+            this.lblGpuSicaklik.Location = new System.Drawing.Point(164, 146);
+            this.lblGpuSicaklik.Name = "lblGpuSicaklik";
+            this.lblGpuSicaklik.Size = new System.Drawing.Size(44, 16);
+            this.lblGpuSicaklik.TabIndex = 15;
+            this.lblGpuSicaklik.Text = "label7";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblGpuSicaklik);
+            this.Controls.Add(this.lblCpuYuk);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtArama);
             this.Controls.Add(this.btnGeriAl);
@@ -180,6 +224,10 @@
         private System.Windows.Forms.Button btnGeriAl;
         private System.Windows.Forms.TextBox txtArama;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblCpuYuk;
+        private System.Windows.Forms.Label lblGpuSicaklik;
     }
 }
 

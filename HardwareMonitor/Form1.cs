@@ -21,9 +21,13 @@ namespace HardwareMonitor
         Stack<AlarmKurali> silinenAlarmlar = new Stack<AlarmKurali>();
         Dictionary<string, string> donanimSozlugu = new Dictionary<string, string>();
         Computer bilgisayar;
+
         public Form1()
         {
             InitializeComponent();
+
+            timer1.Interval = 1000;
+            timer1.Start();
 
             bilgisayar = new Computer
             {
@@ -123,6 +127,8 @@ namespace HardwareMonitor
         private void timer1_Tick(object sender, EventArgs e)
         {
             int anlikCpuSicaklik = 0;
+            int anlikCpuYuk = 0;
+            int anlikGpuSicaklik = 0;
             int anlikRamKullanimi = 0;
 
             foreach (IHardware donanim in bilgisayar.Hardware)
@@ -133,35 +139,51 @@ namespace HardwareMonitor
                 {
                     foreach (ISensor sensor in donanim.Sensors)
                     {
+                        string isim = sensor.Name.ToUpper();
+
                         if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
                         {
-                            string isim = sensor.Name.ToUpper();
-                            int okunanDeger = (int)sensor.Value.Value;
-
-                            if (isim.Contains("TCTL") || isim.Contains("TDIE") || isim.Contains("HOTSPOT"))
+                            if (isim.Contains("PACKAGE") || isim.Contains("CORE") || isim.Contains("TCTL/TDIE"))
                             {
-                                anlikCpuSicaklik = okunanDeger;
-                                break;
-                            }
-                            else if (isim.Contains("PACKAGE") || isim.Contains("CORE"))
-                            {
-                                if (okunanDeger > anlikCpuSicaklik && okunanDeger < 115)
+                                int okunan = (int)sensor.Value.Value;
+                                if (okunan > anlikCpuSicaklik && okunan < 115)
                                 {
-                                    anlikCpuSicaklik = okunanDeger;
+                                    anlikCpuSicaklik = okunan;
                                 }
+                            }
+                        }
+
+                        if (sensor.SensorType == SensorType.Load && sensor.Value.HasValue)
+                        {
+                            if (isim.Contains("TOTAL"))
+                            {
+                                anlikCpuYuk = (int)sensor.Value.Value;
                             }
                         }
                     }
                 }
 
-                if (anlikCpuSicaklik == 0 && (donanim.HardwareType == HardwareType.GpuAmd || donanim.HardwareType == HardwareType.GpuNvidia))
+                if (donanim.HardwareType == HardwareType.GpuAmd || donanim.HardwareType == HardwareType.GpuNvidia)
                 {
                     foreach (ISensor sensor in donanim.Sensors)
                     {
                         if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
                         {
-                            anlikCpuSicaklik = (int)sensor.Value.Value;
-                            break;
+                            int okunanGpu = (int)sensor.Value.Value;
+                            string isim = sensor.Name.ToUpper();
+
+                            if (anlikCpuSicaklik == 0)
+                            {
+                                anlikCpuSicaklik = okunanGpu;
+                            }
+
+                            if (isim.Contains("CORE") || isim.Contains("GPU"))
+                            {
+                                if (okunanGpu > anlikGpuSicaklik && okunanGpu < 115)
+                                {
+                                    anlikGpuSicaklik = okunanGpu;
+                                }
+                            }
                         }
                     }
                 }
@@ -173,20 +195,27 @@ namespace HardwareMonitor
                         if (sensor.SensorType == SensorType.Load && sensor.Value.HasValue)
                         {
                             anlikRamKullanimi = (int)sensor.Value.Value;
-                            break;
                         }
                     }
                 }
             }
 
             lblCpu.Text = $"{anlikCpuSicaklik} °C";
-
-            if (anlikCpuSicaklik >= 75) lblCpu.ForeColor = Color.Red;
-            else if (anlikCpuSicaklik >= 60) lblCpu.ForeColor = Color.DarkOrange;
+            if (anlikCpuSicaklik >= 80) lblCpu.ForeColor = Color.Red;
+            else if (anlikCpuSicaklik >= 65) lblCpu.ForeColor = Color.DarkOrange;
             else lblCpu.ForeColor = Color.Green;
 
-            lblRam.Text = $"%{anlikRamKullanimi}";
+            lblCpuYuk.Text = $"%{anlikCpuYuk}";
+            if (anlikCpuYuk >= 85) lblCpuYuk.ForeColor = Color.Red;
+            else if (anlikCpuYuk >= 50) lblCpuYuk.ForeColor = Color.DarkOrange;
+            else lblCpuYuk.ForeColor = Color.Green;
 
+            lblGpuSicaklik.Text = $"{anlikGpuSicaklik} °C";
+            if (anlikGpuSicaklik >= 80) lblGpuSicaklik.ForeColor = Color.Red;
+            else if (anlikGpuSicaklik >= 65) lblGpuSicaklik.ForeColor = Color.DarkOrange;
+            else lblGpuSicaklik.ForeColor = Color.Green;
+
+            lblRam.Text = $"%{anlikRamKullanimi}";
             if (anlikRamKullanimi >= 80) lblRam.ForeColor = Color.Red;
             else if (anlikRamKullanimi >= 60) lblRam.ForeColor = Color.DarkOrange;
             else lblRam.ForeColor = Color.Green;
