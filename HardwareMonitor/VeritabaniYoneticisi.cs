@@ -155,5 +155,46 @@ namespace HardwareMonitor
                 }
             }
         }
+
+        public static System.Data.DataTable LoglariGetir()
+        {
+            var tablo = new System.Data.DataTable();
+
+            using (var baglanti = new SQLiteConnection(baglantiDizesi))
+            {
+                baglanti.Open();
+                string sorgu = "SELECT * FROM PerformansLoglari ORDER BY Id DESC LIMIT 50";
+
+                using (var komut = new SQLiteCommand(sorgu, baglanti))
+                using (var okuyucu = komut.ExecuteReader())
+                {
+                    tablo.Load(okuyucu);
+                }
+            }
+            return tablo;
+        }
+        public static System.Data.DataTable ZamanFiltreliLoglariGetir(int dakika)
+        {
+            var tablo = new System.Data.DataTable();
+
+            using (var baglanti = new SQLiteConnection(baglantiDizesi))
+            {
+                baglanti.Open();
+
+                string filtreZamani = DateTime.Now.AddMinutes(-dakika).ToString("yyyy-MM-dd HH:mm:ss");
+
+                string sorgu = "SELECT * FROM PerformansLoglari WHERE TarihSaat >= @FiltreZamani ORDER BY Id DESC";
+
+                using (var komut = new SQLiteCommand(sorgu, baglanti))
+                {
+                    komut.Parameters.AddWithValue("@FiltreZamani", filtreZamani);
+                    using (var okuyucu = komut.ExecuteReader())
+                    {
+                        tablo.Load(okuyucu);
+                    }
+                }
+            }
+            return tablo;
+        }
     }
 }

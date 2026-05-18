@@ -22,6 +22,7 @@ namespace HardwareMonitor
         Dictionary<string, string> donanimSozlugu = new Dictionary<string, string>();
         DateTime sonBildirimZamani = DateTime.MinValue;
         Computer bilgisayar;
+        private bool ilkKucultme = true;
 
         public Form1()
         {
@@ -154,6 +155,22 @@ namespace HardwareMonitor
             VeritabaniYoneticisi.AlarmGuncelle(seciliKural);
             AlarmlariListele();
             MessageBox.Show($"'{seciliKural.HedefDonanim}' alarmı güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                this.Hide();
+                systemNotification.Visible = true;
+
+                if (ilkKucultme)
+                {
+                    systemNotification.ShowBalloonTip(2000, "Sistem İzleyici", "Uygulama arka planda çalışmaya ve log tutmaya devam ediyor.", ToolTipIcon.Info);
+                    ilkKucultme = false; 
+                }
+            }
         }
 
         private async void timer1_Tick(object sender, EventArgs e)
@@ -336,6 +353,23 @@ namespace HardwareMonitor
             int anlikRam = int.Parse(lblRam.Text.Replace("%", ""));
 
             VeritabaniYoneticisi.LogEkle(anlikCpuSicaklik, anlikCpuYuk, anlikGpuSicaklik, anlikRam);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FrmGrafikler frmGrafik = new FrmGrafikler();
+            frmGrafik.ShowDialog();
+        }
+
+        private void çıkışToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void systemNotification_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
         }
     }
 }

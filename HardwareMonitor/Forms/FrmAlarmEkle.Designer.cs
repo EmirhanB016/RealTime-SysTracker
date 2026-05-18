@@ -54,14 +54,14 @@
             // 
             // txtSinirDeger
             // 
-            this.txtSinirDeger.Location = new System.Drawing.Point(365, 129);
+            this.txtSinirDeger.Location = new System.Drawing.Point(373, 129);
             this.txtSinirDeger.Name = "txtSinirDeger";
             this.txtSinirDeger.Size = new System.Drawing.Size(136, 22);
             this.txtSinirDeger.TabIndex = 1;
             // 
             // btnKaydet
             // 
-            this.btnKaydet.Location = new System.Drawing.Point(399, 200);
+            this.btnKaydet.Location = new System.Drawing.Point(408, 201);
             this.btnKaydet.Name = "btnKaydet";
             this.btnKaydet.Size = new System.Drawing.Size(80, 29);
             this.btnKaydet.TabIndex = 2;
@@ -81,7 +81,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(385, 95);
+            this.label2.Location = new System.Drawing.Point(396, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 16);
             this.label2.TabIndex = 4;
@@ -90,7 +90,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(596, 95);
+            this.label3.Location = new System.Drawing.Point(625, 95);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(91, 16);
             this.label3.TabIndex = 5;
@@ -98,7 +98,7 @@
             // 
             // numBildirimSayisi
             // 
-            this.numBildirimSayisi.Location = new System.Drawing.Point(585, 129);
+            this.numBildirimSayisi.Location = new System.Drawing.Point(608, 129);
             this.numBildirimSayisi.Maximum = new decimal(new int[] {
             20,
             0,
@@ -122,7 +122,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(866, 481);
             this.Controls.Add(this.numBildirimSayisi);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
