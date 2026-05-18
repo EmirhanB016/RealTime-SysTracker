@@ -301,9 +301,6 @@ namespace HardwareMonitor
         {
             switch (cmbLogAraligi.Text)
             {
-                case "5 Saniye":
-                    timer2.Interval = 5000; // 5 saniye
-                    break;
                 case "5 Dakika":
                     timer2.Interval = 5 * 60 * 1000; 
                     break;
@@ -339,7 +336,6 @@ namespace HardwareMonitor
             int anlikRam = int.Parse(lblRam.Text.Replace("%", ""));
 
             VeritabaniYoneticisi.LogEkle(anlikCpuSicaklik, anlikCpuYuk, anlikGpuSicaklik, anlikRam);
-            MessageBox.Show("Test: 5 Saniye doldu ve anlık donanım verileri veritabanına loglandı!", "Sistem Bilgisi");
         }
     }
 }

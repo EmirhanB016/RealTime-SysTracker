@@ -198,7 +198,6 @@
             // 
             this.cmbLogAraligi.FormattingEnabled = true;
             this.cmbLogAraligi.Items.AddRange(new object[] {
-            "5 Saniye",
             "5 Dakika",
             "15 Dakika",
             "30 Dakika",
