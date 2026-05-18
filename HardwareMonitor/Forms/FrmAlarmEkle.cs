@@ -37,6 +37,7 @@ namespace HardwareMonitor.Forms
 
             YeniKural = new AlarmKurali
             {
+                Id = Guid.NewGuid(),
                 HedefDonanim = cmbDonanim.Text,
                 SinirDeger = Convert.ToDouble(txtSinirDeger.Text),
                 KalanBildirimHakki = (int)numBildirimSayisi.Value

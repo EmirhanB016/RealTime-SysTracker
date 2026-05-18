@@ -46,6 +46,8 @@
             this.lblCpuYuk = new System.Windows.Forms.Label();
             this.lblGpuSicaklik = new System.Windows.Forms.Label();
             this.systemNotification = new System.Windows.Forms.NotifyIcon(this.components);
+            this.cmbLogAraligi = new System.Windows.Forms.ComboBox();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlarmlar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -192,11 +194,34 @@
             this.systemNotification.Text = "notifyIcon1";
             this.systemNotification.Visible = true;
             // 
+            // cmbLogAraligi
+            // 
+            this.cmbLogAraligi.FormattingEnabled = true;
+            this.cmbLogAraligi.Items.AddRange(new object[] {
+            "5 Saniye",
+            "5 Dakika",
+            "15 Dakika",
+            "30 Dakika",
+            "1 Saat",
+            "3 Saat",
+            "5 Saat",
+            "10 Saat"});
+            this.cmbLogAraligi.Location = new System.Drawing.Point(557, 29);
+            this.cmbLogAraligi.Name = "cmbLogAraligi";
+            this.cmbLogAraligi.Size = new System.Drawing.Size(121, 24);
+            this.cmbLogAraligi.TabIndex = 16;
+            this.cmbLogAraligi.SelectedIndexChanged += new System.EventHandler(this.cmbLogAraligi_SelectedIndexChanged);
+            // 
+            // timer2
+            // 
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.cmbLogAraligi);
             this.Controls.Add(this.lblGpuSicaklik);
             this.Controls.Add(this.lblCpuYuk);
             this.Controls.Add(this.label5);
@@ -237,6 +262,8 @@
         private System.Windows.Forms.Label lblCpuYuk;
         private System.Windows.Forms.Label lblGpuSicaklik;
         private System.Windows.Forms.NotifyIcon systemNotification;
+        private System.Windows.Forms.ComboBox cmbLogAraligi;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 

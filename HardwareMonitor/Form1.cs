@@ -27,6 +27,10 @@ namespace HardwareMonitor
         {
             InitializeComponent();
 
+            VeritabaniYoneticisi.VeritabaniIlkles();
+            alarmKurallari = VeritabaniYoneticisi.AlarmlariGetir();
+            AlarmlariListele();
+
             timer1.Interval = 1000;
             timer1.Start();
 
@@ -53,7 +57,7 @@ namespace HardwareMonitor
             if (frmEkle.ShowDialog() == DialogResult.OK)
             {
                 alarmKurallari.Add(frmEkle.YeniKural);
-
+                VeritabaniYoneticisi.AlarmEkle(frmEkle.YeniKural);
                 AlarmlariListele();
             }
         }
@@ -103,11 +107,9 @@ namespace HardwareMonitor
             if (dgvAlarmlar.CurrentRow != null)
             {
                 var seciliKural = (AlarmKurali)dgvAlarmlar.CurrentRow.DataBoundItem;
-
                 silinenAlarmlar.Push(seciliKural);
-
                 alarmKurallari.Remove(seciliKural);
-
+                VeritabaniYoneticisi.AlarmSil(seciliKural.Id.ToString());
                 AlarmlariListele();
             }
             else
@@ -148,11 +150,9 @@ namespace HardwareMonitor
             if (e.RowIndex == -1) return;
 
             var seciliKural = (AlarmKurali)dgvAlarmlar.Rows[e.RowIndex].DataBoundItem;
-
             seciliKural.AktifMi = !seciliKural.AktifMi;
-
+            VeritabaniYoneticisi.AlarmGuncelle(seciliKural);
             AlarmlariListele();
-
             MessageBox.Show($"'{seciliKural.HedefDonanim}' alarmı güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -295,6 +295,51 @@ namespace HardwareMonitor
                     break;
                 }
             }
+        }
+
+        private void cmbLogAraligi_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (cmbLogAraligi.Text)
+            {
+                case "5 Saniye":
+                    timer2.Interval = 5000; // 5 saniye
+                    break;
+                case "5 Dakika":
+                    timer2.Interval = 5 * 60 * 1000; 
+                    break;
+                case "10 Dakika":
+                    timer2.Interval = 10 * 60 * 1000; 
+                    break;
+                case "30 Dakika":
+                    timer2.Interval = 30 * 60 * 1000;
+                    break;
+                case "1 Saat":
+                    timer2.Interval = 60 * 60 * 1000;
+                    break;
+                case "3 Saat":
+                    timer2.Interval = 3 * 60 * 60 * 1000; 
+                    break;
+                case "5 Saat":
+                    timer2.Interval = 5 * 60 * 60 * 1000; 
+                    break;
+                case "10 Saat":
+                    timer2.Interval = 10 * 60 * 60 * 1000;
+                    break;
+            }
+
+            timer2.Stop();
+            timer2.Start();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            int anlikCpuSicaklik = int.Parse(lblCpu.Text.Replace(" °C", ""));
+            int anlikCpuYuk = int.Parse(lblCpuYuk.Text.Replace("%", ""));
+            int anlikGpuSicaklik = int.Parse(lblGpuSicaklik.Text.Replace(" °C", ""));
+            int anlikRam = int.Parse(lblRam.Text.Replace("%", ""));
+
+            VeritabaniYoneticisi.LogEkle(anlikCpuSicaklik, anlikCpuYuk, anlikGpuSicaklik, anlikRam);
+            MessageBox.Show("Test: 5 Saniye doldu ve anlık donanım verileri veritabanına loglandı!", "Sistem Bilgisi");
         }
     }
 }
