@@ -13,43 +13,65 @@ namespace HardwareMonitor
 
         private void FrmGrafikler_Load(object sender, EventArgs e)
         {
-            cmbZamanSecimi.SelectedIndex = 0;
-            VerileriFiltreleVeHesapla(5);
+            cmbZamanSecimi.SelectedIndex = 0; // Varsayılan olarak ilk sıradakini seç
+
+            // Canlı akış motorunu çalıştırıyoruz (Her 2 saniyede bir ekranı yenileyecek)
+            timerCanliAkis.Interval = 2000;
+            timerCanliAkis.Start();
+
+            // Beklemeden ilk verileri getirmesi için manuel tetikliyoruz
+            timerCanliAkis_Tick(null, null);
+        }
+
+        private void timerCanliAkis_Tick(object sender, EventArgs e)
+        {
+            // --- 1. GÖREV: TABLOYU CANLI OLARAK AKITMAK ---
+            // Sadece son 20 satırı ekranda kaydırarak gösterir
+            DataTable canliTablo = VeritabaniYoneticisi.CanliLoglariGetir(20);
+            dgvLoglar.DataSource = canliTablo;
+            TabloFormatla();
+
+            // Tablo doldukça otomatik olarak en alt satıra (en güncel veriye) kaydırır
+            if (dgvLoglar.Rows.Count > 0)
+            {
+                dgvLoglar.FirstDisplayedScrollingRowIndex = dgvLoglar.Rows.Count - 1;
+            }
+
+            // --- 2. GÖREV: SEÇİLEN ZAMANA GÖRE ORTALAMALARI GÜNCELLEMEK ---
+            int secilenDakika = 5;
+            if (cmbZamanSecimi.Text == "15 Dakika") secilenDakika = 15;
+            else if (cmbZamanSecimi.Text == "30 Dakika") secilenDakika = 30;
+
+            OrtalamalariHesapla(secilenDakika);
         }
 
         private void cmbZamanSecimi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int secilenDakika = 5;
-
-            if (cmbZamanSecimi.Text == "15 Dakika") secilenDakika = 15;
-            else if (cmbZamanSecimi.Text == "30 Dakika") secilenDakika = 30;
-
-            VerileriFiltreleVeHesapla(secilenDakika);
+            // Kullanıcı süreyi değiştirdiği an, 2 saniye beklememesi için anında güncelliyoruz
+            timerCanliAkis_Tick(null, null);
         }
 
-        private void VerileriFiltreleVeHesapla(int dakika)
+        private void OrtalamalariHesapla(int dakika)
         {
-            DataTable logTablosu = VeritabaniYoneticisi.ZamanFiltreliLoglariGetir(dakika);
-            dgvLoglar.DataSource = logTablosu;
+            // Tabloyu hiç etkilemeden, sadece hesaplama için veritabanından arka planda veri çekiyoruz
+            DataTable hesapTablosu = VeritabaniYoneticisi.ZamanFiltreliLoglariGetir(dakika);
 
-            TabloFormatla();
-
-            if (logTablosu.Rows.Count > 0)
+            if (hesapTablosu.Rows.Count > 0)
             {
-                double toplamCpuSicaklik = 0;
-                double toplamRamKullanimi = 0;
+                double toplamCpu = 0;
+                double toplamRam = 0;
 
-                foreach (DataRow satir in logTablosu.Rows)
+                foreach (DataRow satir in hesapTablosu.Rows)
                 {
-                    toplamCpuSicaklik += Convert.ToDouble(satir["CpuSicaklik"]);
-                    toplamRamKullanimi += Convert.ToDouble(satir["RamKullanimi"]);
+                    toplamCpu += Convert.ToDouble(satir["CpuSicaklik"]);
+                    toplamRam += Convert.ToDouble(satir["RamKullanimi"]);
                 }
 
-                double ortCpu = toplamCpuSicaklik / logTablosu.Rows.Count;
-                double ortRam = toplamRamKullanimi / logTablosu.Rows.Count;
+                double ortCpu = toplamCpu / hesapTablosu.Rows.Count;
+                double ortRam = toplamRam / hesapTablosu.Rows.Count;
 
-                lblOrtCpu.Text = $"Son {dakika} Dk. Ortalama CPU Sıcaklığı: {Math.Round(ortCpu, 1)} °C";
-                lblOrtRam.Text = $"Son {dakika} Dk. Ortalama RAM Kullanımı: %{Math.Round(ortRam, 1)}";
+                lblOrtCpu.Text = $"Son {dakika} Dk. Ortalama CPU Sıc: {Math.Round(ortCpu, 1)} °C";
+                lblOrtRam.Text = $"Son {dakika} Dk. Ortalama RAM: %{Math.Round(ortRam, 1)}";
             }
             else
             {
@@ -60,26 +82,18 @@ namespace HardwareMonitor
 
         private void TabloFormatla()
         {
+            // Sütunların genişliğini ve hizalamalarını ayarlayan kısım aynen kalıyor
             dgvLoglar.ReadOnly = true;
             dgvLoglar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvLoglar.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             if (dgvLoglar.Columns["Id"] != null) dgvLoglar.Columns["Id"].Visible = false;
 
-            if (dgvLoglar.Columns["TarihSaat"] != null)
-                dgvLoglar.Columns["TarihSaat"].HeaderText = "Kayıt Zamanı";
-
-            if (dgvLoglar.Columns["CpuSicaklik"] != null)
-                dgvLoglar.Columns["CpuSicaklik"].HeaderText = "İşlemci Sıc. (°C)";
-
-            if (dgvLoglar.Columns["CpuYuk"] != null)
-                dgvLoglar.Columns["CpuYuk"].HeaderText = "İşlemci Yükü (%)";
-
-            if (dgvLoglar.Columns["GpuSicaklik"] != null)
-                dgvLoglar.Columns["GpuSicaklik"].HeaderText = "Ekran Kartı Sıc. (°C)";
-
-            if (dgvLoglar.Columns["RamKullanimi"] != null)
-                dgvLoglar.Columns["RamKullanimi"].HeaderText = "RAM Kullanımı (%)";
+            if (dgvLoglar.Columns["TarihSaat"] != null) dgvLoglar.Columns["TarihSaat"].HeaderText = "Kayıt Zamanı";
+            if (dgvLoglar.Columns["CpuSicaklik"] != null) dgvLoglar.Columns["CpuSicaklik"].HeaderText = "İşlemci Sıc. (°C)";
+            if (dgvLoglar.Columns["CpuYuk"] != null) dgvLoglar.Columns["CpuYuk"].HeaderText = "İşlemci Yükü (%)";
+            if (dgvLoglar.Columns["GpuSicaklik"] != null) dgvLoglar.Columns["GpuSicaklik"].HeaderText = "Ekran Kartı Sıc. (°C)";
+            if (dgvLoglar.Columns["RamKullanimi"] != null) dgvLoglar.Columns["RamKullanimi"].HeaderText = "RAM Kullanımı (%)";
 
             foreach (DataGridViewColumn sutun in dgvLoglar.Columns)
             {

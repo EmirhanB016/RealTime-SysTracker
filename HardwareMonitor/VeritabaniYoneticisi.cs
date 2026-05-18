@@ -196,5 +196,26 @@ namespace HardwareMonitor
             }
             return tablo;
         }
+        public static System.Data.DataTable CanliLoglariGetir(int satirSayisi = 20)
+        {
+            var tablo = new System.Data.DataTable();
+
+            using (var baglanti = new SQLiteConnection(baglantiDizesi))
+            {
+                baglanti.Open();
+
+                string sorgu = $@"
+                    SELECT * FROM (
+                        SELECT * FROM PerformansLoglari ORDER BY Id DESC LIMIT {satirSayisi}
+                    ) ORDER BY Id ASC";
+
+                using (var komut = new SQLiteCommand(sorgu, baglanti))
+                using (var okuyucu = komut.ExecuteReader())
+                {
+                    tablo.Load(okuyucu);
+                }
+            }
+            return tablo;
+        }
     }
 }

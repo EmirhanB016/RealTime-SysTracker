@@ -35,6 +35,9 @@ namespace HardwareMonitor
             timer1.Interval = 1000;
             timer1.Start();
 
+            timer2.Interval = 1000;
+            timer2.Start();
+
             bilgisayar = new Computer
             {
                 IsCpuEnabled = true,
@@ -314,45 +317,19 @@ namespace HardwareMonitor
             }
         }
 
-        private void cmbLogAraligi_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (cmbLogAraligi.Text)
-            {
-                case "5 Dakika":
-                    timer2.Interval = 5 * 60 * 1000; 
-                    break;
-                case "10 Dakika":
-                    timer2.Interval = 10 * 60 * 1000; 
-                    break;
-                case "30 Dakika":
-                    timer2.Interval = 30 * 60 * 1000;
-                    break;
-                case "1 Saat":
-                    timer2.Interval = 60 * 60 * 1000;
-                    break;
-                case "3 Saat":
-                    timer2.Interval = 3 * 60 * 60 * 1000; 
-                    break;
-                case "5 Saat":
-                    timer2.Interval = 5 * 60 * 60 * 1000; 
-                    break;
-                case "10 Saat":
-                    timer2.Interval = 10 * 60 * 60 * 1000;
-                    break;
-            }
-
-            timer2.Stop();
-            timer2.Start();
-        }
-
         private void timer2_Tick(object sender, EventArgs e)
         {
-            int anlikCpuSicaklik = int.Parse(lblCpu.Text.Replace(" °C", ""));
-            int anlikCpuYuk = int.Parse(lblCpuYuk.Text.Replace("%", ""));
-            int anlikGpuSicaklik = int.Parse(lblGpuSicaklik.Text.Replace(" °C", ""));
-            int anlikRam = int.Parse(lblRam.Text.Replace("%", ""));
+            int anlikCpuSicaklik, anlikCpuYuk, anlikGpuSicaklik, anlikRam;
 
-            VeritabaniYoneticisi.LogEkle(anlikCpuSicaklik, anlikCpuYuk, anlikGpuSicaklik, anlikRam);
+            bool cpuS = int.TryParse(lblCpu.Text.Replace(" °C", "").Trim(), out anlikCpuSicaklik);
+            bool cpuY = int.TryParse(lblCpuYuk.Text.Replace("%", "").Trim(), out anlikCpuYuk);
+            bool gpuS = int.TryParse(lblGpuSicaklik.Text.Replace(" °C", "").Trim(), out anlikGpuSicaklik);
+            bool ramK = int.TryParse(lblRam.Text.Replace("%", "").Trim(), out anlikRam);
+
+            if (cpuS && cpuY && gpuS && ramK)
+            {
+                VeritabaniYoneticisi.LogEkle(anlikCpuSicaklik, anlikCpuYuk, anlikGpuSicaklik, anlikRam);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)

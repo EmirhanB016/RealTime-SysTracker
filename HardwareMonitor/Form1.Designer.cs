@@ -50,7 +50,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.çıkışToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmbLogAraligi = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlarmlar)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -229,31 +228,12 @@
             this.çıkışToolStripMenuItem.Text = "Çıkış";
             this.çıkışToolStripMenuItem.Click += new System.EventHandler(this.çıkışToolStripMenuItem_Click);
             // 
-            // cmbLogAraligi
-            // 
-            this.cmbLogAraligi.FormattingEnabled = true;
-            this.cmbLogAraligi.Items.AddRange(new object[] {
-            "5 Saniye",
-            "5 Dakika",
-            "15 Dakika",
-            "30 Dakika",
-            "1 Saat",
-            "3 Saat",
-            "5 Saat",
-            "10 Saat"});
-            this.cmbLogAraligi.Location = new System.Drawing.Point(677, 29);
-            this.cmbLogAraligi.Name = "cmbLogAraligi";
-            this.cmbLogAraligi.Size = new System.Drawing.Size(121, 24);
-            this.cmbLogAraligi.TabIndex = 16;
-            this.cmbLogAraligi.SelectedIndexChanged += new System.EventHandler(this.cmbLogAraligi_SelectedIndexChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(866, 503);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.cmbLogAraligi);
             this.Controls.Add(this.lblGpuSicaklik);
             this.Controls.Add(this.lblCpuYuk);
             this.Controls.Add(this.label5);
@@ -300,7 +280,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem çıkışToolStripMenuItem;
-        private System.Windows.Forms.ComboBox cmbLogAraligi;
     }
 }
 

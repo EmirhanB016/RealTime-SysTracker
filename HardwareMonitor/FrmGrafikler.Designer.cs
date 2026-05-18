@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dgvLoglar = new System.Windows.Forms.DataGridView();
             this.lblOrtCpu = new System.Windows.Forms.Label();
             this.lblOrtRam = new System.Windows.Forms.Label();
             this.cmbZamanSecimi = new System.Windows.Forms.ComboBox();
+            this.timerCanliAkis = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLoglar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +50,7 @@
             // lblOrtCpu
             // 
             this.lblOrtCpu.AutoSize = true;
-            this.lblOrtCpu.Location = new System.Drawing.Point(251, 159);
+            this.lblOrtCpu.Location = new System.Drawing.Point(205, 159);
             this.lblOrtCpu.Name = "lblOrtCpu";
             this.lblOrtCpu.Size = new System.Drawing.Size(44, 16);
             this.lblOrtCpu.TabIndex = 1;
@@ -57,7 +59,7 @@
             // lblOrtRam
             // 
             this.lblOrtRam.AutoSize = true;
-            this.lblOrtRam.Location = new System.Drawing.Point(455, 159);
+            this.lblOrtRam.Location = new System.Drawing.Point(534, 159);
             this.lblOrtRam.Name = "lblOrtRam";
             this.lblOrtRam.Size = new System.Drawing.Size(44, 16);
             this.lblOrtRam.TabIndex = 2;
@@ -74,6 +76,10 @@
             this.cmbZamanSecimi.Name = "cmbZamanSecimi";
             this.cmbZamanSecimi.Size = new System.Drawing.Size(121, 24);
             this.cmbZamanSecimi.TabIndex = 3;
+            // 
+            // timerCanliAkis
+            // 
+            this.timerCanliAkis.Tick += new System.EventHandler(this.timerCanliAkis_Tick);
             // 
             // FrmGrafikler
             // 
@@ -99,5 +105,6 @@
         private System.Windows.Forms.Label lblOrtCpu;
         private System.Windows.Forms.Label lblOrtRam;
         private System.Windows.Forms.ComboBox cmbZamanSecimi;
+        private System.Windows.Forms.Timer timerCanliAkis;
     }
 }
