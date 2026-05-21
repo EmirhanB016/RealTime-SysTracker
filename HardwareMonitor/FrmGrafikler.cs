@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.IO;
 using System.Windows.Forms;
 
 namespace HardwareMonitor
@@ -98,6 +99,66 @@ namespace HardwareMonitor
             foreach (DataGridViewColumn sutun in dgvLoglar.Columns)
             {
                 sutun.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+        }
+
+        private void btnExcelAktar_Click(object sender, EventArgs e)
+        {
+            if (dgvLoglar.Rows.Count == 0)
+            {
+                MessageBox.Show("Dışa aktarılacak herhangi bir veri bulunamadı!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Excel CSV Dosyası (*.csv)|*.csv";
+            sfd.Title = "Performans Loglarını Kaydet";
+            sfd.FileName = $"Sistem_Performans_Loglari_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (StreamWriter sw = new StreamWriter(sfd.FileName, false, System.Text.Encoding.UTF8))
+                    {
+                        string[] basliklar = { "Kayıt Zamanı", "İşlemci Sıcaklığı (°C)", "İşlemci Yükü (%)", "Ekran Kartı Sıcaklığı (°C)", "RAM Kullanımı (%)" };
+                        sw.WriteLine(string.Join(";", basliklar));
+
+                        foreach (DataGridViewRow satir in dgvLoglar.Rows)
+                        {
+                            if (!satir.IsNewRow)
+                            {
+                                string zaman = "";
+                                if (satir.Cells["TarihSaat"].Value != null)
+                                {
+                                    if (DateTime.TryParse(satir.Cells["TarihSaat"].Value.ToString(), out DateTime gercekTarih))
+                                    {
+                                        zaman = gercekTarih.ToString("dd.MM.yyyy HH:mm:ss");
+                                    }
+                                    else
+                                    {
+                                        zaman = satir.Cells["TarihSaat"].Value.ToString();
+                                    }
+                                }
+
+                                string cpuSic = satir.Cells["CpuSicaklik"].Value?.ToString() ?? "";
+                                string cpuYuk = satir.Cells["CpuYuk"].Value?.ToString() ?? "";
+                                string gpuSic = satir.Cells["GpuSicaklik"].Value?.ToString() ?? "";
+                                string ram = satir.Cells["RamKullanimi"].Value?.ToString() ?? "";
+
+                                string[] satirVerisi = { zaman, cpuSic, cpuYuk, gpuSic, ram };
+
+                                sw.WriteLine(string.Join(";", satirVerisi));
+                            }
+                        }
+                    }
+
+                    MessageBox.Show("Performans logları başarıyla Excel/CSV formatında dışa aktarıldı!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Dosya kaydedilirken teknik bir hata oluştu:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

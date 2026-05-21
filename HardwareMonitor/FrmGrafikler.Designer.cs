@@ -34,6 +34,7 @@
             this.lblOrtRam = new System.Windows.Forms.Label();
             this.cmbZamanSecimi = new System.Windows.Forms.ComboBox();
             this.timerCanliAkis = new System.Windows.Forms.Timer(this.components);
+            this.btnExcelAktar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLoglar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,7 +73,7 @@
             "5 Dakika",
             "15 Dakika",
             "30 Dakika"});
-            this.cmbZamanSecimi.Location = new System.Drawing.Point(311, 82);
+            this.cmbZamanSecimi.Location = new System.Drawing.Point(78, 49);
             this.cmbZamanSecimi.Name = "cmbZamanSecimi";
             this.cmbZamanSecimi.Size = new System.Drawing.Size(121, 24);
             this.cmbZamanSecimi.TabIndex = 3;
@@ -81,11 +82,22 @@
             // 
             this.timerCanliAkis.Tick += new System.EventHandler(this.timerCanliAkis_Tick);
             // 
+            // btnExcelAktar
+            // 
+            this.btnExcelAktar.Location = new System.Drawing.Point(649, 49);
+            this.btnExcelAktar.Name = "btnExcelAktar";
+            this.btnExcelAktar.Size = new System.Drawing.Size(245, 33);
+            this.btnExcelAktar.TabIndex = 4;
+            this.btnExcelAktar.Text = "Excel / CSV Olarak Aktar";
+            this.btnExcelAktar.UseVisualStyleBackColor = true;
+            this.btnExcelAktar.Click += new System.EventHandler(this.btnExcelAktar_Click);
+            // 
             // FrmGrafikler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(973, 554);
+            this.Controls.Add(this.btnExcelAktar);
             this.Controls.Add(this.cmbZamanSecimi);
             this.Controls.Add(this.lblOrtRam);
             this.Controls.Add(this.lblOrtCpu);
@@ -106,5 +118,6 @@
         private System.Windows.Forms.Label lblOrtRam;
         private System.Windows.Forms.ComboBox cmbZamanSecimi;
         private System.Windows.Forms.Timer timerCanliAkis;
+        private System.Windows.Forms.Button btnExcelAktar;
     }
 }
