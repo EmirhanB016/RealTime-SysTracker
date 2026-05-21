@@ -31,7 +31,7 @@ namespace HardwareMonitor
             using (SQLiteConnection baglanti = new SQLiteConnection(baglantiDizesi))
             {
                 baglanti.Open();
-                string tabloSorgusu = @"CREATE TABLE IF NOT EXISTS Loglar (
+                string tabloSorgusu = @"CREATE TABLE IF NOT EXISTS PerformansLoglari (
                                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 TarihSaat DATETIME,
                                 CpuSicaklik INTEGER,
@@ -42,6 +42,17 @@ namespace HardwareMonitor
                 using (SQLiteCommand komut = new SQLiteCommand(tabloSorgusu, baglanti))
                 {
                     komut.ExecuteNonQuery();
+                }
+                string alarmTabloSorgusu = @"CREATE TABLE IF NOT EXISTS Alarmlar (
+                                Id TEXT PRIMARY KEY,
+                                HedefDonanim TEXT,
+                                SinirDeger INTEGER,
+                                AktifMi INTEGER,
+                                KalanBildirimHakki INTEGER)";
+
+                using (SQLiteCommand komut2 = new SQLiteCommand(alarmTabloSorgusu, baglanti))
+                {
+                    komut2.ExecuteNonQuery();
                 }
             }
         }
