@@ -46,10 +46,11 @@
             this.lblCpuYuk = new System.Windows.Forms.Label();
             this.lblGpuSicaklik = new System.Windows.Forms.Label();
             this.systemNotification = new System.Windows.Forms.NotifyIcon(this.components);
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.çıkışToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
+            this.chkOtomatikBaslat = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlarmlar)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -199,20 +200,6 @@
             this.systemNotification.Visible = true;
             this.systemNotification.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.systemNotification_MouseDoubleClick);
             // 
-            // timer2
-            // 
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(661, 73);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(152, 29);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Grafikleri Gör";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -228,11 +215,37 @@
             this.çıkışToolStripMenuItem.Text = "Çıkış";
             this.çıkışToolStripMenuItem.Click += new System.EventHandler(this.çıkışToolStripMenuItem_Click);
             // 
+            // timer2
+            // 
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(661, 98);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(152, 29);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "Grafikleri Gör";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // chkOtomatikBaslat
+            // 
+            this.chkOtomatikBaslat.AutoSize = true;
+            this.chkOtomatikBaslat.Location = new System.Drawing.Point(645, 24);
+            this.chkOtomatikBaslat.Name = "chkOtomatikBaslat";
+            this.chkOtomatikBaslat.Size = new System.Drawing.Size(185, 20);
+            this.chkOtomatikBaslat.TabIndex = 18;
+            this.chkOtomatikBaslat.Text = "Windows ile Birlikte Başlat";
+            this.chkOtomatikBaslat.UseVisualStyleBackColor = true;
+            this.chkOtomatikBaslat.CheckedChanged += new System.EventHandler(this.chkOtomatikBaslat_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(866, 503);
+            this.Controls.Add(this.chkOtomatikBaslat);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblGpuSicaklik);
             this.Controls.Add(this.lblCpuYuk);
@@ -280,6 +293,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem çıkışToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkOtomatikBaslat;
     }
 }
 

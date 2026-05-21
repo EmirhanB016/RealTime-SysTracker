@@ -9,46 +9,39 @@ namespace HardwareMonitor
     public class VeritabaniYoneticisi
     {
         private static string veritabanıAdi = "hardware_monitor.db";
-        private static string baglantiDizesi = $"Data Source={veritabanıAdi};Version=3;";
+        public static string baglantiDizesi;
 
         public static void VeritabaniIlkles()
         {
-            if (!File.Exists(veritabanıAdi))
+            string klasorYolu = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "HardwareMonitor");
+            string dbYolu = System.IO.Path.Combine(klasorYolu, "hardware_monitor.db");
+
+            baglantiDizesi = $"Data Source={dbYolu};Version=3;";
+
+            if (!System.IO.Directory.Exists(klasorYolu))
             {
-                SQLiteConnection.CreateFile(veritabanıAdi);
+                System.IO.Directory.CreateDirectory(klasorYolu);
             }
 
-            using (var baglanti = new SQLiteConnection(baglantiDizesi))
+            if (!System.IO.File.Exists(dbYolu))
+            {
+                SQLiteConnection.CreateFile(dbYolu);
+            }
+
+            using (SQLiteConnection baglanti = new SQLiteConnection(baglantiDizesi))
             {
                 baglanti.Open();
+                string tabloSorgusu = @"CREATE TABLE IF NOT EXISTS Loglar (
+                                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                TarihSaat DATETIME,
+                                CpuSicaklik INTEGER,
+                                CpuYuk INTEGER,
+                                GpuSicaklik INTEGER,
+                                RamKullanimi INTEGER)";
 
-                string tabloOlusturSQL = @"
-                    CREATE TABLE IF NOT EXISTS Alarmlar (
-                        Id TEXT PRIMARY KEY,
-                        HedefDonanim TEXT NOT NULL,
-                        SinirDeger REAL NOT NULL,
-                        AktifMi INTEGER NOT NULL,
-                        KalanBildirimHakki INTEGER NOT NULL
-                    );";
-
-                using (var komut = new SQLiteCommand(tabloOlusturSQL, baglanti))
+                using (SQLiteCommand komut = new SQLiteCommand(tabloSorgusu, baglanti))
                 {
                     komut.ExecuteNonQuery();
-                }
-
-                string logTablosuSQL = @"
-                    CREATE TABLE IF NOT EXISTS PerformansLoglari (
-                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        TarihSaat TEXT NOT NULL,
-                        CpuSicaklik INTEGER,
-                        CpuYuk INTEGER,
-                        GpuSicaklik INTEGER,
-                        RamKullanimi INTEGER
-                    );";
-
-                using (var komut2 = new SQLiteCommand(logTablosuSQL, baglanti))
-                {
-                    komut2.ExecuteNonQuery();
                 }
             }
         }

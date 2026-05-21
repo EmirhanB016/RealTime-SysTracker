@@ -11,6 +11,7 @@ using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace HardwareMonitor
 {
@@ -24,6 +25,23 @@ namespace HardwareMonitor
         Computer bilgisayar;
         private bool ilkKucultme = true;
         private Icon orijinalIkon;
+        private bool ilkAcilisGizliligi = Environment.GetCommandLineArgs().Contains("-gizli");
+
+        protected override void SetVisibleCore(bool value)
+        {
+            if (ilkAcilisGizliligi)
+            {
+                value = false;
+                if (!this.IsHandleCreated)
+                {
+                    CreateHandle();
+                }
+
+                ilkAcilisGizliligi = false;
+            }
+
+            base.SetVisibleCore(value);
+        }
 
         public Form1()
         {
@@ -34,6 +52,12 @@ namespace HardwareMonitor
             VeritabaniYoneticisi.VeritabaniIlkles();
             alarmKurallari = VeritabaniYoneticisi.AlarmlariGetir();
             AlarmlariListele();
+
+            RegistryKey anahtar = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+            if (anahtar.GetValue("HardwareMonitorApp") != null)
+            {
+                chkOtomatikBaslat.Checked = true;
+            }
 
             timer1.Interval = 1000;
             timer1.Start();
@@ -367,6 +391,23 @@ namespace HardwareMonitor
             this.Show();
             this.WindowState = FormWindowState.Normal;
             systemNotification.Icon = orijinalIkon;
+            this.BringToFront();
+        }
+
+        private void chkOtomatikBaslat_CheckedChanged(object sender, EventArgs e)
+        {
+            string kayitYolu = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+
+            RegistryKey anahtar = Registry.CurrentUser.OpenSubKey(kayitYolu, true);
+
+            if (chkOtomatikBaslat.Checked)
+            {
+                anahtar.SetValue("HardwareMonitorApp", $"\"{Application.ExecutablePath}\" -gizli");
+            }
+            else
+            {
+                anahtar.DeleteValue("HardwareMonitorApp", false);
+            }
         }
     }
 }
