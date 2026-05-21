@@ -23,10 +23,13 @@ namespace HardwareMonitor
         DateTime sonBildirimZamani = DateTime.MinValue;
         Computer bilgisayar;
         private bool ilkKucultme = true;
+        private Icon orijinalIkon;
 
         public Form1()
         {
             InitializeComponent();
+
+            orijinalIkon = systemNotification.Icon;
 
             VeritabaniYoneticisi.VeritabaniIlkles();
             alarmKurallari = VeritabaniYoneticisi.AlarmlariGetir();
@@ -275,6 +278,8 @@ namespace HardwareMonitor
             else if (anlikRamKullanimi >= 60) lblRam.ForeColor = Color.DarkOrange;
             else lblRam.ForeColor = Color.Green;
 
+            bool herhangiBirAlarmVarMi = false;
+
             foreach (var alarm in alarmKurallari)
             {
                 bool alarmTetiklendiMi = false;
@@ -296,6 +301,11 @@ namespace HardwareMonitor
                         break;
                 }
 
+                if (alarmTetiklendiMi)
+                {
+                    herhangiBirAlarmVarMi = true;
+                }
+
                 if (alarmTetiklendiMi && alarm.KalanBildirimHakki > 0)
                 {
                     if ((DateTime.Now - sonBildirimZamani).TotalSeconds >= 15)
@@ -314,6 +324,15 @@ namespace HardwareMonitor
                     }
                     break;
                 }
+            }
+
+            if (herhangiBirAlarmVarMi == false)
+            {
+                systemNotification.Icon = orijinalIkon;
+            }
+            else
+            {
+                systemNotification.Icon = SystemIcons.Warning;
             }
         }
 
@@ -347,6 +366,7 @@ namespace HardwareMonitor
         {
             this.Show();
             this.WindowState = FormWindowState.Normal;
+            systemNotification.Icon = orijinalIkon;
         }
     }
 }
