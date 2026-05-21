@@ -174,6 +174,23 @@ namespace HardwareMonitor
 
             dgvAlarmlar.DataSource = null;
             dgvAlarmlar.DataSource = filtrelenmisListe;
+
+            if (dgvAlarmlar.Columns["Id"] != null)
+            {
+                dgvAlarmlar.Columns["Id"].Visible = false;
+            }
+
+            if (dgvAlarmlar.Columns["HedefDonanim"] != null)
+                dgvAlarmlar.Columns["HedefDonanim"].HeaderText = "Hedef Donanım";
+
+            if (dgvAlarmlar.Columns["SinirDeger"] != null)
+                dgvAlarmlar.Columns["SinirDeger"].HeaderText = "Sınır Değer";
+
+            if (dgvAlarmlar.Columns["AktifMi"] != null)
+                dgvAlarmlar.Columns["AktifMi"].HeaderText = "Aktif mi?";
+
+            if (dgvAlarmlar.Columns["KalanBildirimHakki"] != null)
+                dgvAlarmlar.Columns["KalanBildirimHakki"].HeaderText = "Kalan Bildirim";
         }
 
         private void dgvAlarmlar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
