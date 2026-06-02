@@ -14,6 +14,8 @@ namespace HardwareMonitor
 {
     public partial class Form1 : Form
     {
+        private Size ilkFormBoyutu;
+        private Dictionary<Control, Rectangle> ilkKonumlar = new Dictionary<Control, Rectangle>();
         Queue<int> islemciSicaklikKuyrugu = new Queue<int>();
         List<AlarmKurali> alarmKurallari  = new List<AlarmKurali>();
         Stack<AlarmKurali> silinenAlarmlar = new Stack<AlarmKurali>();
@@ -48,7 +50,24 @@ namespace HardwareMonitor
         {
             InitializeComponent();
             KaranlikTemaUygula();
+            ilkFormBoyutu = this.Size;
+            this.Icon = new Icon("logo.ico");
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+            if (rk.GetValue("RealTimeSysTracker") != null)
+            {
+                windowsİleBaşlatToolStripMenuItem.Checked = true;
+            }
 
+            foreach (Control c in this.Controls)
+            {
+                ilkKonumlar[c] = new Rectangle(
+                    c.Left,
+                    c.Top,
+                    c.Width,
+                    c.Height);
+            }
+
+            this.Resize += Form1_Resize;
             orijinalIkon = systemNotification.Icon;
 
             VeritabaniYoneticisi.VeritabaniIlkles();
@@ -57,7 +76,6 @@ namespace HardwareMonitor
 
             RegistryKey anahtar = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
             if (anahtar.GetValue("HardwareMonitorApp") != null)
-                chkOtomatikBaslat.Checked = true;
 
             timer1.Interval = 1000;
             timer1.Start();
@@ -159,9 +177,6 @@ namespace HardwareMonitor
 
             lblVram.ForeColor  = Color.MediumPurple;
             lblRamGb.ForeColor = ClrSubText;
-
-            chkOtomatikBaslat.ForeColor = ClrText;
-            chkOtomatikBaslat.BackColor = Color.Transparent;
 
             foreach (var btn in new[] { button1, btnAlarmEkle, btnSil, btnGeriAl })
                 StyleButon(btn);
@@ -487,13 +502,58 @@ namespace HardwareMonitor
             this.BringToFront();
         }
 
-        private void chkOtomatikBaslat_CheckedChanged(object sender, EventArgs e)
+        private void Form1_Resize(object sender, EventArgs e)
         {
-            var k = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-            if (chkOtomatikBaslat.Checked)
-                k.SetValue("HardwareMonitorApp", $"\"{Application.ExecutablePath}\" -gizli");
+            float xOran = (float)this.Width / ilkFormBoyutu.Width;
+            float yOran = (float)this.Height / ilkFormBoyutu.Height;
+
+            foreach (Control c in this.Controls)
+            {
+                if (!ilkKonumlar.ContainsKey(c))
+                    continue;
+
+                Rectangle r = ilkKonumlar[c];
+
+                c.Left = (int)(r.Left * xOran);
+                c.Top = (int)(r.Top * yOran);
+                c.Width = (int)(r.Width * xOran);
+                c.Height = (int)(r.Height * yOran);
+
+                c.Font = new Font(
+                    c.Font.FontFamily,
+                    Math.Max(8, 9 * Math.Min(xOran, yOran)),
+                    c.Font.Style);
+            }
+        }
+
+        private void contextMenuStrip2_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void btnAyarlar_Click(object sender, EventArgs e)
+        {
+            contextMenuStrip2.Show(btnAyarlar, new Point(0, btnAyarlar.Height));
+        }
+
+        private void windowsİleBaşlatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+            string uygulamaAdi = "RealTimeSysTracker";
+
+            if (windowsİleBaşlatToolStripMenuItem.Checked)
+            {
+                rk.SetValue(uygulamaAdi, Application.ExecutablePath);
+            }
             else
-                k.DeleteValue("HardwareMonitorApp", false);
+            {
+                rk.DeleteValue(uygulamaAdi, false);
+            }
+        }
+
+        private void çıkışToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
