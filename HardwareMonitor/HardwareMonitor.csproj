@@ -72,8 +72,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlackSharp.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\BlackSharp.Core.1.1.0\lib\net472\BlackSharp.Core.dll</HintPath>
+    <Reference Include="BlackSharp.Core, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BlackSharp.Core.1.1.1\lib\net472\BlackSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="DiskInfoToolkit, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DiskInfoToolkit.2.1.1\lib\net472\DiskInfoToolkit.dll</HintPath>
@@ -81,8 +81,7 @@
     <Reference Include="HidSharp, Version=2.6.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HidSharp.2.6.4\lib\net35\HidSharp.dll</HintPath>
     </Reference>
-    <Reference Include="LibreHardwareMonitorLib, Version=0.9.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="LibreHardwareMonitorLib">
       <HintPath>..\packages\LibreHardwareMonitorLib.0.9.6\runtimes\win-x64\lib\net472\LibreHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="RAMSPDToolkit-NDD, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -110,8 +109,8 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.6.0.1\lib\net461\System.Security.AccessControl.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
