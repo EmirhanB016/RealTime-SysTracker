@@ -1,4 +1,7 @@
-﻿namespace HardwareMonitor
+﻿using System.Windows.Forms;
+using System.Drawing;
+
+namespace HardwareMonitor
 {
     partial class Form1
     {
@@ -17,6 +20,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pnlHeader = new System.Windows.Forms.Panel();
+            this.btnAyarlar = new System.Windows.Forms.Button();
             this.lblAppTitle = new System.Windows.Forms.Label();
             this.pnlCpu = new System.Windows.Forms.Panel();
             this.lblCpuBaslik = new System.Windows.Forms.Label();
@@ -50,7 +54,6 @@
             this.çıkışToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.btnAyarlar = new System.Windows.Forms.Button();
             this.chkOtomatikBaslat = new System.Windows.Forms.CheckBox();
             this.pnlHeader.SuspendLayout();
             this.pnlCpu.SuspendLayout();
@@ -62,13 +65,24 @@
             // 
             // pnlHeader
             // 
+            this.pnlHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlHeader.Controls.Add(this.btnAyarlar);
             this.pnlHeader.Controls.Add(this.lblAppTitle);
-            this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
             this.pnlHeader.Size = new System.Drawing.Size(980, 44);
             this.pnlHeader.TabIndex = 99;
+            // 
+            // btnAyarlar
+            // 
+            this.btnAyarlar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAyarlar.Location = new System.Drawing.Point(930, 10);
+            this.btnAyarlar.Name = "btnAyarlar";
+            this.btnAyarlar.Size = new System.Drawing.Size(35, 31);
+            this.btnAyarlar.TabIndex = 103;
+            this.btnAyarlar.Text = "⚙️";
+            this.btnAyarlar.UseVisualStyleBackColor = true;
             // 
             // lblAppTitle
             // 
@@ -145,6 +159,8 @@
             // 
             // pnlGpu
             // 
+            this.pnlGpu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlGpu.Controls.Add(this.lblGpuBaslik);
             this.pnlGpu.Controls.Add(this.label5);
             this.pnlGpu.Controls.Add(this.lblGpuSicaklik);
@@ -228,6 +244,7 @@
             // 
             // pnlRam
             // 
+            this.pnlRam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlRam.Controls.Add(this.lblRamBaslik);
             this.pnlRam.Controls.Add(this.label2);
             this.pnlRam.Controls.Add(this.lblRam);
@@ -289,6 +306,7 @@
             // 
             // button1
             // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.button1.Location = new System.Drawing.Point(529, 254);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(142, 36);
@@ -310,6 +328,7 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.label3.Location = new System.Drawing.Point(198, 267);
@@ -320,6 +339,7 @@
             // 
             // txtArama
             // 
+            this.txtArama.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtArama.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtArama.Location = new System.Drawing.Point(239, 260);
             this.txtArama.Name = "txtArama";
@@ -329,6 +349,7 @@
             // 
             // btnSil
             // 
+            this.btnSil.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSil.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.btnSil.Location = new System.Drawing.Point(677, 254);
             this.btnSil.Name = "btnSil";
@@ -340,6 +361,7 @@
             // 
             // btnGeriAl
             // 
+            this.btnGeriAl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGeriAl.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.btnGeriAl.Location = new System.Drawing.Point(854, 254);
             this.btnGeriAl.Name = "btnGeriAl";
@@ -351,6 +373,9 @@
             // 
             // dgvAlarmlar
             // 
+            this.dgvAlarmlar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvAlarmlar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAlarmlar.Location = new System.Drawing.Point(10, 303);
             this.dgvAlarmlar.Name = "dgvAlarmlar";
@@ -393,15 +418,6 @@
             // 
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
-            // btnAyarlar
-            // 
-            this.btnAyarlar.Location = new System.Drawing.Point(930, 10);
-            this.btnAyarlar.Name = "btnAyarlar";
-            this.btnAyarlar.Size = new System.Drawing.Size(35, 31);
-            this.btnAyarlar.TabIndex = 103;
-            this.btnAyarlar.Text = "⚙️";
-            this.btnAyarlar.UseVisualStyleBackColor = true;
-            // 
             // chkOtomatikBaslat
             // 
             this.chkOtomatikBaslat.AutoSize = true;
@@ -431,6 +447,7 @@
             this.Controls.Add(this.btnSil);
             this.Controls.Add(this.btnGeriAl);
             this.Controls.Add(this.dgvAlarmlar);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "RealTime SysTracker";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);

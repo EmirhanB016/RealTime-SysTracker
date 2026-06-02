@@ -5,5 +5,6 @@
   </Configurations>
   <Project Path="HardwareMonitor/HardwareMonitor.csproj" Id="9c79039a-7822-4255-9b97-9e1f48ac3fe4">
     <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="Release|Any CPU" Project="x64" />
   </Project>
 </Solution>

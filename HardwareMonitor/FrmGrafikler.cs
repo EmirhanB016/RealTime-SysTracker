@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -9,11 +10,25 @@ namespace HardwareMonitor
 {
     public partial class FrmGrafikler : Form
     {
+        private Size ilkFormBoyutu;
+        private Dictionary<Control, Rectangle> ilkKonumlar = new Dictionary<Control, Rectangle>();
         public FrmGrafikler()
         {
             InitializeComponent();
             GrafikleriAyarla();
             KaranlikTemaUygula();
+            ilkFormBoyutu = this.Size;
+
+            foreach (Control c in this.Controls)
+            {
+                ilkKonumlar[c] = new Rectangle(
+                    c.Left,
+                    c.Top,
+                    c.Width,
+                    c.Height);
+            }
+
+            this.Resize += FrmGrafikler_Resize;
         }
 
         // ── Tema ──
@@ -269,6 +284,24 @@ namespace HardwareMonitor
                 {
                     MessageBox.Show($"Hata:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+        private void FrmGrafikler_Resize(object sender, EventArgs e)
+        {
+            float xOran = (float)this.Width / ilkFormBoyutu.Width;
+            float yOran = (float)this.Height / ilkFormBoyutu.Height;
+
+            foreach (Control c in this.Controls)
+            {
+                if (!ilkKonumlar.ContainsKey(c))
+                    continue;
+
+                Rectangle r = ilkKonumlar[c];
+
+                c.Left = (int)(r.Left * xOran);
+                c.Top = (int)(r.Top * yOran);
+                c.Width = (int)(r.Width * xOran);
+                c.Height = (int)(r.Height * yOran);
             }
         }
     }
