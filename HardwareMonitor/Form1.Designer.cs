@@ -38,7 +38,6 @@
             this.lblRam = new System.Windows.Forms.Label();
             this.labelRamGb = new System.Windows.Forms.Label();
             this.lblRamGb = new System.Windows.Forms.Label();
-            this.chkOtomatikBaslat = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.btnAlarmEkle = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -51,6 +50,8 @@
             this.çıkışToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.btnAyarlar = new System.Windows.Forms.Button();
+            this.chkOtomatikBaslat = new System.Windows.Forms.CheckBox();
             this.pnlHeader.SuspendLayout();
             this.pnlCpu.SuspendLayout();
             this.pnlGpu.SuspendLayout();
@@ -61,6 +62,7 @@
             // 
             // pnlHeader
             // 
+            this.pnlHeader.Controls.Add(this.btnAyarlar);
             this.pnlHeader.Controls.Add(this.lblAppTitle);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
@@ -285,18 +287,6 @@
             this.lblRamGb.TabIndex = 4;
             this.lblRamGb.Text = "--";
             // 
-            // chkOtomatikBaslat
-            // 
-            this.chkOtomatikBaslat.AutoSize = true;
-            this.chkOtomatikBaslat.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.chkOtomatikBaslat.Location = new System.Drawing.Point(356, 230);
-            this.chkOtomatikBaslat.Name = "chkOtomatikBaslat";
-            this.chkOtomatikBaslat.Size = new System.Drawing.Size(156, 24);
-            this.chkOtomatikBaslat.TabIndex = 5;
-            this.chkOtomatikBaslat.Text = "Windows ile Başlat";
-            this.chkOtomatikBaslat.UseVisualStyleBackColor = false;
-            this.chkOtomatikBaslat.CheckedChanged += new System.EventHandler(this.chkOtomatikBaslat_CheckedChanged);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(529, 254);
@@ -403,6 +393,27 @@
             // 
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
+            // btnAyarlar
+            // 
+            this.btnAyarlar.Location = new System.Drawing.Point(930, 10);
+            this.btnAyarlar.Name = "btnAyarlar";
+            this.btnAyarlar.Size = new System.Drawing.Size(35, 31);
+            this.btnAyarlar.TabIndex = 103;
+            this.btnAyarlar.Text = "⚙️";
+            this.btnAyarlar.UseVisualStyleBackColor = true;
+            // 
+            // chkOtomatikBaslat
+            // 
+            this.chkOtomatikBaslat.AutoSize = true;
+            this.chkOtomatikBaslat.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            this.chkOtomatikBaslat.Location = new System.Drawing.Point(356, 230);
+            this.chkOtomatikBaslat.Name = "chkOtomatikBaslat";
+            this.chkOtomatikBaslat.Size = new System.Drawing.Size(156, 24);
+            this.chkOtomatikBaslat.TabIndex = 5;
+            this.chkOtomatikBaslat.Text = "Windows ile Başlat";
+            this.chkOtomatikBaslat.UseVisualStyleBackColor = false;
+            this.chkOtomatikBaslat.CheckedChanged += new System.EventHandler(this.chkOtomatikBaslat_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -461,7 +472,6 @@
         private System.Windows.Forms.Label lblRam;
         private System.Windows.Forms.Label labelRamGb;
         private System.Windows.Forms.Label lblRamGb;
-        private System.Windows.Forms.CheckBox chkOtomatikBaslat;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnAlarmEkle;
         private System.Windows.Forms.Label label3;
@@ -474,5 +484,7 @@
         private System.Windows.Forms.ToolStripMenuItem çıkışToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Button btnAyarlar;
+        private System.Windows.Forms.CheckBox chkOtomatikBaslat;
     }
 }

@@ -304,35 +304,86 @@ namespace HardwareMonitor
                     d.Update();
 
                     if (d.HardwareType == HardwareType.Cpu)
+                    {
                         foreach (ISensor s in d.Sensors)
                         {
-                            string n = s.Name.ToUpper();
+                            string isim = s.Name.ToUpper();
+
                             if (s.SensorType == SensorType.Temperature && s.Value.HasValue)
-                            { int v = (int)s.Value.Value; if (v > cpuSic && v < 115) cpuSic = v; }
-                            if (s.SensorType == SensorType.Load && s.Value.HasValue && n.Contains("TOTAL"))
+                            {
+                                if (isim.Contains("PACKAGE") || isim.Contains("CORE") || isim.Contains("TCTL/TDIE"))
+                                {
+                                    int v = (int)s.Value.Value;
+                                    if (v > cpuSic && v < 115) cpuSic = v;
+                                }
+                            }
+
+                            if (s.SensorType == SensorType.Load && s.Value.HasValue && isim.Contains("TOTAL"))
+                            {
                                 cpuYuk = (int)s.Value.Value;
+                            }
                         }
+                    }
+
+                    if (d.HardwareType == HardwareType.Motherboard)
+                    {
+                        foreach (IHardware sub in d.SubHardware)
+                        {
+                            sub.Update();
+                            foreach (ISensor s in sub.Sensors)
+                            {
+                                if (s.SensorType == SensorType.Temperature && s.Value.HasValue && s.Name.ToUpper().Contains("CPU"))
+                                {
+                                    int v = (int)s.Value.Value;
+                                    if (v > cpuSic && v < 115) cpuSic = v;
+                                }
+                            }
+                        }
+                    }
 
                     if (d.HardwareType == HardwareType.GpuNvidia || d.HardwareType == HardwareType.GpuAmd)
+                    {
                         foreach (ISensor s in d.Sensors)
                         {
-                            string n = s.Name.ToUpper();
+                            string isim = s.Name.ToUpper();
                             if (s.SensorType == SensorType.Temperature && s.Value.HasValue)
-                            { int v = (int)s.Value.Value; if ((n.Contains("CORE") || n.Contains("GPU")) && v > gpuSic && v < 115) gpuSic = v; }
+                            {
+                                if (isim.Contains("CORE") || isim.Contains("GPU"))
+                                {
+                                    int v = (int)s.Value.Value;
+                                    if (v > gpuSic && v < 115) gpuSic = v;
+                                }
+                            }
+
                             if (s.SensorType == SensorType.Load && s.Value.HasValue)
-                            { if (n.Contains("CORE") || n.Contains("GPU") || n.Contains("D3D")) { int v = (int)s.Value.Value; if (v > gpuYuk) gpuYuk = v; } }
+                            {
+                                if (isim.Contains("CORE") || isim.Contains("GPU") || isim.Contains("D3D"))
+                                {
+                                    int v = (int)s.Value.Value;
+                                    if (v > gpuYuk) gpuYuk = v;
+                                }
+                            }
+
                             if (s.SensorType == SensorType.SmallData && s.Value.HasValue)
-                            { if (n.Contains("GPU MEMORY USED") || n.Contains("D3D DEDICATED MEMORY USED")) vram = s.Value.Value; }
+                            {
+                                if (isim.Contains("GPU MEMORY USED") || isim.Contains("D3D DEDICATED MEMORY USED"))
+                                    vram = s.Value.Value;
+                            }
                         }
+                    }
 
                     if (d.HardwareType == HardwareType.Memory)
+                    {
                         foreach (ISensor s in d.Sensors)
                         {
-                            if (s.SensorType == SensorType.Load && s.Value.HasValue)  ramYuz = (int)s.Value.Value;
-                            if (s.SensorType == SensorType.Data && s.Value.HasValue && s.Name.ToUpper() == "MEMORY USED") ramGb = s.Value.Value;
+                            if (s.SensorType == SensorType.Load && s.Value.HasValue)
+                                ramYuz = (int)s.Value.Value;
+
+                            if (s.SensorType == SensorType.Data && s.Value.HasValue && s.Name.ToUpper() == "MEMORY USED")
+                                ramGb = s.Value.Value;
                         }
+                    }
                 }
-                if (cpuSic == 0) cpuSic = WmiCpuSicaklikOku();
             });
 
             Color Renk(int v, int kirmizi, int turuncu) =>
