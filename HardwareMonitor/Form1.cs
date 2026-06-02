@@ -8,6 +8,7 @@ using System.Management;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace HardwareMonitor
 {
@@ -70,6 +71,65 @@ namespace HardwareMonitor
                 IsControllerEnabled = true
             };
             bilgisayar.Open();
+
+            int ilkTestSicakligi = 0;
+            foreach (IHardware d in bilgisayar.Hardware)
+            {
+                if (d.HardwareType == HardwareType.Cpu)
+                {
+                    d.Update();
+                    foreach (ISensor s in d.Sensors)
+                    {
+                        if (s.SensorType == SensorType.Temperature && s.Value.HasValue)
+                        {
+                            ilkTestSicakligi = (int)s.Value.Value;
+                        }
+                    }
+                }
+            }
+
+            if (ilkTestSicakligi == 0)
+            {
+                PawnIoKurulumuBaslat();
+            }
+            else
+            {
+                timer1.Start();
+            }
+        }
+
+        private void PawnIoKurulumuBaslat()
+        {
+            DialogResult secim = MessageBox.Show(
+                "Sıcaklık verilerini okuyabilmek için 'PawnIO' donanım sürücüsüne ihtiyaç var.\n\nSisteminize hiçbir ayar gerektirmeden otomatik olarak indirip kurmamı ister misiniz?",
+                "Gerekli Sürücü Tespiti",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Information);
+
+            if (secim == DialogResult.Yes)
+            {
+                try
+                {
+                    ProcessStartInfo proc = new ProcessStartInfo();
+                    proc.UseShellExecute = true;
+                    proc.FileName = "winget";
+                    proc.Arguments = "install PawnIO --accept-package-agreements --accept-source-agreements --silent";
+                    proc.Verb = "runas";
+
+                    proc.WindowStyle = ProcessWindowStyle.Hidden;
+
+                    Process kurulumSüreci = Process.Start(proc);
+
+                    kurulumSüreci.WaitForExit();
+
+                    Application.Restart();
+                    Environment.Exit(0);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Otomatik kurulum başlatılamadı. Lütfen CMD (Yönetici) üzerinden manuel olarak 'winget install PawnIO' komutunu çalıştırın.\n\nHata detayı: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void KaranlikTemaUygula()
