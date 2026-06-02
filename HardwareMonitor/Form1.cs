@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace HardwareMonitor
 {
     public partial class Form1 : Form
     {
+        private Size ilkFormBoyutu;
+        private Dictionary<Control, Rectangle> ilkKonumlar = new Dictionary<Control, Rectangle>();
         Queue<int> islemciSicaklikKuyrugu = new Queue<int>();
         List<AlarmKurali> alarmKurallari  = new List<AlarmKurali>();
         Stack<AlarmKurali> silinenAlarmlar = new Stack<AlarmKurali>();
@@ -48,7 +51,20 @@ namespace HardwareMonitor
         {
             InitializeComponent();
             KaranlikTemaUygula();
+            ilkFormBoyutu = this.Size;
+            this.Icon = new Icon("logo.ico");
 
+
+            foreach (Control c in this.Controls)
+            {
+                ilkKonumlar[c] = new Rectangle(
+                    c.Left,
+                    c.Top,
+                    c.Width,
+                    c.Height);
+            }
+
+            this.Resize += Form1_Resize;
             orijinalIkon = systemNotification.Icon;
 
             VeritabaniYoneticisi.VeritabaniIlkles();
@@ -494,6 +510,29 @@ namespace HardwareMonitor
                 k.SetValue("HardwareMonitorApp", $"\"{Application.ExecutablePath}\" -gizli");
             else
                 k.DeleteValue("HardwareMonitorApp", false);
+        }
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            float xOran = (float)this.Width / ilkFormBoyutu.Width;
+            float yOran = (float)this.Height / ilkFormBoyutu.Height;
+
+            foreach (Control c in this.Controls)
+            {
+                if (!ilkKonumlar.ContainsKey(c))
+                    continue;
+
+                Rectangle r = ilkKonumlar[c];
+
+                c.Left = (int)(r.Left * xOran);
+                c.Top = (int)(r.Top * yOran);
+                c.Width = (int)(r.Width * xOran);
+                c.Height = (int)(r.Height * yOran);
+
+                c.Font = new Font(
+                    c.Font.FontFamily,
+                    Math.Max(8, 9 * Math.Min(xOran, yOran)),
+                    c.Font.Style);
+            }
         }
     }
 }
