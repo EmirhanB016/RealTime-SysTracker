@@ -23,7 +23,6 @@ namespace HardwareMonitor
         private Icon orijinalIkon;
         private bool ilkAcilisGizliligi = Environment.GetCommandLineArgs().Contains("-gizli");
 
-        // ── Tema renkleri ──
         private static readonly Color ClrBackground = Color.FromArgb(18, 18, 28);
         private static readonly Color ClrCard       = Color.FromArgb(26, 26, 42);
         private static readonly Color ClrHeader     = Color.FromArgb(13, 13, 22);
@@ -73,59 +72,46 @@ namespace HardwareMonitor
             bilgisayar.Open();
         }
 
-        // ══════════════════════════════════════════
-        //  KOYU TEMA
-        // ══════════════════════════════════════════
         private void KaranlikTemaUygula()
         {
             this.BackColor = ClrBackground;
 
-            // Header
             pnlHeader.BackColor = ClrHeader;
             lblAppTitle.ForeColor = Color.White;
             lblAppTitle.BackColor = ClrHeader;
 
-            // Kartlar
             StyleKart(pnlCpu);
             StyleKart(pnlGpu);
             StyleKart(pnlRam);
 
-            // Kart başlık renkleri
             lblCpuBaslik.ForeColor = Color.DodgerBlue;
             lblGpuBaslik.ForeColor = Color.MediumSpringGreen;
             lblRamBaslik.ForeColor = Color.Tomato;
 
-            // Kart açıklama label'ları
             foreach (var lbl in new[] { label1, label4, label5, labelGpuYuk, labelVram, label2, labelRamGb, label3 })
             {
                 lbl.ForeColor = ClrSubText;
                 lbl.BackColor = Color.Transparent;
             }
 
-            // Değer label'ları — timer günceller, başlangıç rengi
             foreach (var lbl in new[] { lblCpu, lblCpuYuk, lblGpuSicaklik, lblGpuYuk, lblRam })
                 lbl.ForeColor = Color.MediumSpringGreen;
 
             lblVram.ForeColor  = Color.MediumPurple;
             lblRamGb.ForeColor = ClrSubText;
 
-            // Checkbox
             chkOtomatikBaslat.ForeColor = ClrText;
             chkOtomatikBaslat.BackColor = Color.Transparent;
 
-            // Butonlar
             foreach (var btn in new[] { button1, btnAlarmEkle, btnSil, btnGeriAl })
                 StyleButon(btn);
 
-            // TextBox
             txtArama.BackColor   = Color.FromArgb(30, 30, 48);
             txtArama.ForeColor   = ClrText;
             txtArama.BorderStyle = BorderStyle.FixedSingle;
 
-            // DataGridView
             DgvTemaUygula(dgvAlarmlar);
 
-            // Panel kenarlıkları için paint event'leri
             pnlCpu.Paint += KartKenarlıkCiz;
             pnlGpu.Paint += KartKenarlıkCiz;
             pnlRam.Paint += KartKenarlıkCiz;
@@ -178,27 +164,6 @@ namespace HardwareMonitor
             dgv.ColumnHeadersDefaultCellStyle.Font      = new Font("Segoe UI", 9f, FontStyle.Bold);
             dgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(28, 28, 48);
             dgv.ColumnHeadersHeight = 34;
-        }
-
-        // ══════════════════════════════════════════
-        //  SENSÖR OKUMA
-        // ══════════════════════════════════════════
-        private int WmiCpuSicaklikOku()
-        {
-            try
-            {
-                using (var s = new ManagementObjectSearcher(@"root\WMI", "SELECT * FROM MSAcpi_ThermalZoneTemperature"))
-                {
-                    int max = 0;
-                    foreach (ManagementObject o in s.Get())
-                    {
-                        int c = (int)((Convert.ToDouble(o["CurrentTemperature"]) - 2732) / 10.0);
-                        if (c > max && c < 115) max = c;
-                    }
-                    return max;
-                }
-            }
-            catch { return 0; }
         }
 
         private void label1_Click(object sender, EventArgs e) { }
@@ -311,11 +276,8 @@ namespace HardwareMonitor
 
                             if (s.SensorType == SensorType.Temperature && s.Value.HasValue)
                             {
-                                if (isim.Contains("PACKAGE") || isim.Contains("CORE") || isim.Contains("TCTL/TDIE"))
-                                {
-                                    int v = (int)s.Value.Value;
-                                    if (v > cpuSic && v < 115) cpuSic = v;
-                                }
+                                int v = (int)s.Value.Value;
+                                if (v > cpuSic && v < 115) cpuSic = v;
                             }
 
                             if (s.SensorType == SensorType.Load && s.Value.HasValue && isim.Contains("TOTAL"))
@@ -412,7 +374,6 @@ namespace HardwareMonitor
                 : "N/A";
             lblRamGb.ForeColor = ClrSubText;
 
-            // Alarm
             bool alarm = false;
             foreach (var a in alarmKurallari)
             {
