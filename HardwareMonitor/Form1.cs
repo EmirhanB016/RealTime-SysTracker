@@ -1,24 +1,24 @@
 ﻿using HardwareMonitor.Models;
 using LibreHardwareMonitor.Hardware;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Management;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Win32;
-using System.Diagnostics;
 
 namespace HardwareMonitor
 {
     public partial class Form1 : Form
     {
+        List<AlarmKurali> alarmKurallari = new List<AlarmKurali>();
         private Size ilkFormBoyutu;
         private Dictionary<Control, Rectangle> ilkKonumlar = new Dictionary<Control, Rectangle>();
         Queue<int> islemciSicaklikKuyrugu = new Queue<int>();
-        List<AlarmKurali> alarmKurallari  = new List<AlarmKurali>();
-        Stack<AlarmKurali> silinenAlarmlar = new Stack<AlarmKurali>();
         Dictionary<string, string> donanimSozlugu = new Dictionary<string, string>();
         DateTime sonBildirimZamani = DateTime.MinValue;
         Computer bilgisayar;
@@ -71,9 +71,6 @@ namespace HardwareMonitor
             orijinalIkon = systemNotification.Icon;
 
             VeritabaniYoneticisi.VeritabaniIlkles();
-            alarmKurallari = VeritabaniYoneticisi.AlarmlariGetir();
-            AlarmlariListele();
-
             RegistryKey anahtar = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
             if (anahtar.GetValue("HardwareMonitorApp") != null)
 
@@ -150,48 +147,6 @@ namespace HardwareMonitor
             }
         }
 
-        private void KaranlikTemaUygula()
-        {
-            this.BackColor = ClrBackground;
-
-            pnlHeader.BackColor = ClrHeader;
-            lblAppTitle.ForeColor = Color.White;
-            lblAppTitle.BackColor = ClrHeader;
-
-            StyleKart(pnlCpu);
-            StyleKart(pnlGpu);
-            StyleKart(pnlRam);
-
-            lblCpuBaslik.ForeColor = Color.DodgerBlue;
-            lblGpuBaslik.ForeColor = Color.MediumSpringGreen;
-            lblRamBaslik.ForeColor = Color.Tomato;
-
-            foreach (var lbl in new[] { label1, label4, label5, labelGpuYuk, labelVram, label2, labelRamGb, label3 })
-            {
-                lbl.ForeColor = ClrSubText;
-                lbl.BackColor = Color.Transparent;
-            }
-
-            foreach (var lbl in new[] { lblCpu, lblCpuYuk, lblGpuSicaklik, lblGpuYuk, lblRam })
-                lbl.ForeColor = Color.MediumSpringGreen;
-
-            lblVram.ForeColor  = Color.MediumPurple;
-            lblRamGb.ForeColor = ClrSubText;
-
-            foreach (var btn in new[] { button1, btnAlarmEkle, btnSil, btnGeriAl })
-                StyleButon(btn);
-
-            txtArama.BackColor   = Color.FromArgb(30, 30, 48);
-            txtArama.ForeColor   = ClrText;
-            txtArama.BorderStyle = BorderStyle.FixedSingle;
-
-            DgvTemaUygula(dgvAlarmlar);
-
-            pnlCpu.Paint += KartKenarlıkCiz;
-            pnlGpu.Paint += KartKenarlıkCiz;
-            pnlRam.Paint += KartKenarlıkCiz;
-        }
-
         private void StyleKart(Panel pnl)
         {
             pnl.BackColor = ClrCard;
@@ -242,82 +197,6 @@ namespace HardwareMonitor
         }
 
         private void label1_Click(object sender, EventArgs e) { }
-
-        private void btnAlarmEkle_Click(object sender, EventArgs e)
-        {
-            var frm = new HardwareMonitor.Forms.FrmAlarmEkle();
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                alarmKurallari.Add(frm.YeniKural);
-                VeritabaniYoneticisi.AlarmEkle(frm.YeniKural);
-                AlarmlariListele();
-            }
-        }
-
-        private void AlarmlariListele()
-        {
-            dgvAlarmlar.DataSource = null;
-            dgvAlarmlar.DataSource = alarmKurallari;
-            dgvAlarmlar.ReadOnly  = true;
-            dgvAlarmlar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            if (dgvAlarmlar.Columns["Id"] != null) dgvAlarmlar.Columns["Id"].Visible = false;
-            if (dgvAlarmlar.Columns["HedefDonanim"] != null)      dgvAlarmlar.Columns["HedefDonanim"].HeaderText = "Hedef Donanım";
-            if (dgvAlarmlar.Columns["SinirDeger"] != null)        dgvAlarmlar.Columns["SinirDeger"].HeaderText = "Sınır Değer";
-            if (dgvAlarmlar.Columns["AktifMi"] != null)           dgvAlarmlar.Columns["AktifMi"].HeaderText = "Aktif mi?";
-            if (dgvAlarmlar.Columns["KalanBildirimHakki"] != null) dgvAlarmlar.Columns["KalanBildirimHakki"].HeaderText = "Kalan Bildirim";
-
-            dgvAlarmlar.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            foreach (DataGridViewColumn col in dgvAlarmlar.Columns)
-                col.DefaultCellStyle.Alignment = col.Name == "HedefDonanim"
-                    ? DataGridViewContentAlignment.MiddleLeft
-                    : DataGridViewContentAlignment.MiddleCenter;
-
-            DgvTemaUygula(dgvAlarmlar);
-        }
-
-        private void btnSil_Click(object sender, EventArgs e)
-        {
-            if (dgvAlarmlar.CurrentRow != null)
-            {
-                var k = (AlarmKurali)dgvAlarmlar.CurrentRow.DataBoundItem;
-                silinenAlarmlar.Push(k);
-                alarmKurallari.Remove(k);
-                VeritabaniYoneticisi.AlarmSil(k.Id.ToString());
-                AlarmlariListele();
-            }
-            else MessageBox.Show("Lütfen silmek için tablodan bir alarm seçin.");
-        }
-
-        private void btnGeriAl_Click(object sender, EventArgs e)
-        {
-            if (silinenAlarmlar.Count > 0) { alarmKurallari.Add(silinenAlarmlar.Pop()); AlarmlariListele(); }
-            else MessageBox.Show("Geri alınacak silinmiş bir alarm bulunmuyor.");
-        }
-
-        private void txtArama_TextChanged(object sender, EventArgs e)
-        {
-            string ara = txtArama.Text.ToLower();
-            dgvAlarmlar.DataSource = null;
-            dgvAlarmlar.DataSource = alarmKurallari.Where(k => k.HedefDonanim.ToLower().Contains(ara)).ToList();
-            if (dgvAlarmlar.Columns["Id"] != null) dgvAlarmlar.Columns["Id"].Visible = false;
-            if (dgvAlarmlar.Columns["HedefDonanim"] != null)      dgvAlarmlar.Columns["HedefDonanim"].HeaderText = "Hedef Donanım";
-            if (dgvAlarmlar.Columns["SinirDeger"] != null)        dgvAlarmlar.Columns["SinirDeger"].HeaderText = "Sınır Değer";
-            if (dgvAlarmlar.Columns["AktifMi"] != null)           dgvAlarmlar.Columns["AktifMi"].HeaderText = "Aktif mi?";
-            if (dgvAlarmlar.Columns["KalanBildirimHakki"] != null) dgvAlarmlar.Columns["KalanBildirimHakki"].HeaderText = "Kalan Bildirim";
-            DgvTemaUygula(dgvAlarmlar);
-        }
-
-        private void dgvAlarmlar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex == -1) return;
-            var k = (AlarmKurali)dgvAlarmlar.Rows[e.RowIndex].DataBoundItem;
-            k.AktifMi = !k.AktifMi;
-            VeritabaniYoneticisi.AlarmGuncelle(k);
-            AlarmlariListele();
-            MessageBox.Show($"'{k.HedefDonanim}' alarmı güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -330,6 +209,43 @@ namespace HardwareMonitor
                     ilkKucultme = false;
                 }
             }
+        }
+        private void KaranlikTemaUygula()
+        {
+            this.BackColor = ClrBackground;
+
+            pnlHeader.BackColor = ClrHeader;
+            lblAppTitle.ForeColor = Color.White;
+            lblAppTitle.BackColor = ClrHeader;
+
+            StyleKart(pnlCpu);
+            StyleKart(pnlGpu);
+            StyleKart(pnlRam);
+
+            lblCpuBaslik.ForeColor = Color.DodgerBlue;
+            lblGpuBaslik.ForeColor = Color.MediumSpringGreen;
+            lblRamBaslik.ForeColor = Color.Tomato;
+
+            foreach (var lbl in new[] { label1, label4, label5, labelGpuYuk, labelVram, label2, labelRamGb})
+            {
+                lbl.ForeColor = ClrSubText;
+                lbl.BackColor = Color.Transparent;
+            }
+
+            foreach (var lbl in new[] { lblCpu, lblCpuYuk, lblGpuSicaklik, lblGpuYuk, lblRam })
+                lbl.ForeColor = Color.MediumSpringGreen;
+
+            lblVram.ForeColor = Color.MediumPurple;
+            lblRamGb.ForeColor = ClrSubText;
+
+            // SADECE EKRANDA KALAN BUTONLARI BOYA
+            // (button1: Grafikleri Gör, btnAlarmlariYonet: Alarmları Yönet)
+            foreach (var btn in new[] { button1, btnAlarmlariYonet })
+                StyleButon(btn);
+
+            pnlCpu.Paint += KartKenarlıkCiz;
+            pnlGpu.Paint += KartKenarlıkCiz;
+            pnlRam.Paint += KartKenarlıkCiz;
         }
 
         private async void timer1_Tick(object sender, EventArgs e)
@@ -385,19 +301,17 @@ namespace HardwareMonitor
                             string isim = s.Name.ToUpper();
                             if (s.SensorType == SensorType.Temperature && s.Value.HasValue)
                             {
-                                if (isim.Contains("CORE") || isim.Contains("GPU"))
+                                if (isim == "GPU CORE")
                                 {
-                                    int v = (int)s.Value.Value;
-                                    if (v > gpuSic && v < 115) gpuSic = v;
+                                    gpuSic = (int)s.Value.Value;
                                 }
                             }
 
                             if (s.SensorType == SensorType.Load && s.Value.HasValue)
                             {
-                                if (isim.Contains("CORE") || isim.Contains("GPU") || isim.Contains("D3D"))
+                                if (isim == "GPU CORE" || isim == "D3D 3D")
                                 {
-                                    int v = (int)s.Value.Value;
-                                    if (v > gpuYuk) gpuYuk = v;
+                                    gpuYuk = (int)s.Value.Value;
                                 }
                             }
 
@@ -459,6 +373,8 @@ namespace HardwareMonitor
                     case "İşlemci Yükü (%)":           if (cpuYuk >= a.SinirDeger) { t = true; msg = $"Yüksek CPU Yükü: %{cpuYuk}"; } break;
                     case "Ekran Kartı Sıcaklığı (°C)": if (gpuSic >= a.SinirDeger) { t = true; msg = $"Kritik GPU Sıcaklığı: {gpuSic}°C"; } break;
                     case "RAM Kullanımı (%)":           if (ramYuz >= a.SinirDeger) { t = true; msg = $"Yüksek RAM Kullanımı: %{ramYuz}"; } break;
+                    case "Ekran Kartı Yükü (%)": if (gpuYuk >= a.SinirDeger) { t = true; msg = $"Yüksek GPU Yükü: %{gpuYuk}"; } break;
+                    case "VRAM Kullanımı (MB)": if (vram >= a.SinirDeger) { t = true; msg = $"Yüksek VRAM Kullanımı: {vram:F0} MB"; } break;
                 }
                 if (t) alarm = true;
                 if (t && a.KalanBildirimHakki > 0 && (DateTime.Now - sonBildirimZamani).TotalSeconds >= 15)
@@ -554,6 +470,12 @@ namespace HardwareMonitor
         private void çıkışToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnAlarmlariYonet_Click(object sender, EventArgs e)
+        {
+            new HardwareMonitor.Forms.FrmAlarmEkle().ShowDialog();
+            alarmKurallari = VeritabaniYoneticisi.AlarmlariGetir();
         }
     }
 }

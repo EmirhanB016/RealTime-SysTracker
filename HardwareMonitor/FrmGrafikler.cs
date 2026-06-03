@@ -214,7 +214,11 @@ namespace HardwareMonitor
             dgvLoglar.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             if (dgvLoglar.Columns["Id"] != null)          dgvLoglar.Columns["Id"].Visible = false;
-            if (dgvLoglar.Columns["TarihSaat"] != null)   dgvLoglar.Columns["TarihSaat"].HeaderText = "Kayıt Zamanı";
+            if (dgvLoglar.Columns["TarihSaat"] != null)
+            {
+                dgvLoglar.Columns["TarihSaat"].HeaderText = "Kayıt Zamanı";
+                dgvLoglar.Columns["TarihSaat"].DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss";
+            }
             if (dgvLoglar.Columns["CpuSicaklik"] != null) dgvLoglar.Columns["CpuSicaklik"].HeaderText = "CPU Sıc. (°C)";
             if (dgvLoglar.Columns["CpuYuk"] != null)      dgvLoglar.Columns["CpuYuk"].HeaderText = "CPU Yükü (%)";
             if (dgvLoglar.Columns["GpuSicaklik"] != null) dgvLoglar.Columns["GpuSicaklik"].HeaderText = "GPU Sıc. (°C)";

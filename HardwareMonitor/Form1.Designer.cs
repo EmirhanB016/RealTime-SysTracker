@@ -43,12 +43,6 @@ namespace HardwareMonitor
             this.labelRamGb = new System.Windows.Forms.Label();
             this.lblRamGb = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.btnAlarmEkle = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtArama = new System.Windows.Forms.TextBox();
-            this.btnSil = new System.Windows.Forms.Button();
-            this.btnGeriAl = new System.Windows.Forms.Button();
-            this.dgvAlarmlar = new System.Windows.Forms.DataGridView();
             this.systemNotification = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.çıkışToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,11 +51,11 @@ namespace HardwareMonitor
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.windowsİleBaşlatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.çıkışToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnAlarmlariYonet = new System.Windows.Forms.Button();
             this.pnlHeader.SuspendLayout();
             this.pnlCpu.SuspendLayout();
             this.pnlGpu.SuspendLayout();
             this.pnlRam.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAlarmlar)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
@@ -115,7 +109,7 @@ namespace HardwareMonitor
             this.pnlCpu.Location = new System.Drawing.Point(8, 38);
             this.pnlCpu.Margin = new System.Windows.Forms.Padding(2);
             this.pnlCpu.Name = "pnlCpu";
-            this.pnlCpu.Size = new System.Drawing.Size(208, 145);
+            this.pnlCpu.Size = new System.Drawing.Size(208, 165);
             this.pnlCpu.TabIndex = 100;
             // 
             // lblCpuBaslik
@@ -144,7 +138,7 @@ namespace HardwareMonitor
             // 
             this.lblCpu.AutoSize = true;
             this.lblCpu.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
-            this.lblCpu.Location = new System.Drawing.Point(10, 55);
+            this.lblCpu.Location = new System.Drawing.Point(10, 59);
             this.lblCpu.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCpu.Name = "lblCpu";
             this.lblCpu.Size = new System.Drawing.Size(26, 25);
@@ -155,7 +149,7 @@ namespace HardwareMonitor
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.label4.Location = new System.Drawing.Point(10, 84);
+            this.label4.Location = new System.Drawing.Point(10, 91);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 15);
@@ -166,7 +160,7 @@ namespace HardwareMonitor
             // 
             this.lblCpuYuk.AutoSize = true;
             this.lblCpuYuk.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
-            this.lblCpuYuk.Location = new System.Drawing.Point(10, 99);
+            this.lblCpuYuk.Location = new System.Drawing.Point(10, 113);
             this.lblCpuYuk.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCpuYuk.Name = "lblCpuYuk";
             this.lblCpuYuk.Size = new System.Drawing.Size(26, 25);
@@ -187,7 +181,7 @@ namespace HardwareMonitor
             this.pnlGpu.Location = new System.Drawing.Point(253, 38);
             this.pnlGpu.Margin = new System.Windows.Forms.Padding(2);
             this.pnlGpu.Name = "pnlGpu";
-            this.pnlGpu.Size = new System.Drawing.Size(231, 145);
+            this.pnlGpu.Size = new System.Drawing.Size(231, 165);
             this.pnlGpu.TabIndex = 101;
             // 
             // lblGpuBaslik
@@ -204,7 +198,7 @@ namespace HardwareMonitor
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.label5.Location = new System.Drawing.Point(10, 41);
+            this.label5.Location = new System.Drawing.Point(10, 38);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 15);
@@ -215,7 +209,7 @@ namespace HardwareMonitor
             // 
             this.lblGpuSicaklik.AutoSize = true;
             this.lblGpuSicaklik.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
-            this.lblGpuSicaklik.Location = new System.Drawing.Point(10, 53);
+            this.lblGpuSicaklik.Location = new System.Drawing.Point(10, 59);
             this.lblGpuSicaklik.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGpuSicaklik.Name = "lblGpuSicaklik";
             this.lblGpuSicaklik.Size = new System.Drawing.Size(26, 25);
@@ -226,7 +220,7 @@ namespace HardwareMonitor
             // 
             this.labelGpuYuk.AutoSize = true;
             this.labelGpuYuk.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.labelGpuYuk.Location = new System.Drawing.Point(10, 79);
+            this.labelGpuYuk.Location = new System.Drawing.Point(10, 91);
             this.labelGpuYuk.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelGpuYuk.Name = "labelGpuYuk";
             this.labelGpuYuk.Size = new System.Drawing.Size(48, 15);
@@ -237,7 +231,7 @@ namespace HardwareMonitor
             // 
             this.lblGpuYuk.AutoSize = true;
             this.lblGpuYuk.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
-            this.lblGpuYuk.Location = new System.Drawing.Point(10, 91);
+            this.lblGpuYuk.Location = new System.Drawing.Point(10, 106);
             this.lblGpuYuk.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGpuYuk.Name = "lblGpuYuk";
             this.lblGpuYuk.Size = new System.Drawing.Size(26, 25);
@@ -248,7 +242,7 @@ namespace HardwareMonitor
             // 
             this.labelVram.AutoSize = true;
             this.labelVram.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.labelVram.Location = new System.Drawing.Point(10, 114);
+            this.labelVram.Location = new System.Drawing.Point(10, 132);
             this.labelVram.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelVram.Name = "labelVram";
             this.labelVram.Size = new System.Drawing.Size(40, 15);
@@ -259,7 +253,7 @@ namespace HardwareMonitor
             // 
             this.lblVram.AutoSize = true;
             this.lblVram.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblVram.Location = new System.Drawing.Point(52, 113);
+            this.lblVram.Location = new System.Drawing.Point(54, 131);
             this.lblVram.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblVram.Name = "lblVram";
             this.lblVram.Size = new System.Drawing.Size(17, 15);
@@ -277,7 +271,7 @@ namespace HardwareMonitor
             this.pnlRam.Location = new System.Drawing.Point(520, 38);
             this.pnlRam.Margin = new System.Windows.Forms.Padding(2);
             this.pnlRam.Name = "pnlRam";
-            this.pnlRam.Size = new System.Drawing.Size(206, 145);
+            this.pnlRam.Size = new System.Drawing.Size(206, 165);
             this.pnlRam.TabIndex = 102;
             // 
             // lblRamBaslik
@@ -305,7 +299,7 @@ namespace HardwareMonitor
             // 
             this.lblRam.AutoSize = true;
             this.lblRam.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
-            this.lblRam.Location = new System.Drawing.Point(10, 53);
+            this.lblRam.Location = new System.Drawing.Point(8, 59);
             this.lblRam.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRam.Name = "lblRam";
             this.lblRam.Size = new System.Drawing.Size(26, 25);
@@ -316,7 +310,7 @@ namespace HardwareMonitor
             // 
             this.labelRamGb.AutoSize = true;
             this.labelRamGb.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.labelRamGb.Location = new System.Drawing.Point(10, 79);
+            this.labelRamGb.Location = new System.Drawing.Point(10, 91);
             this.labelRamGb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelRamGb.Name = "labelRamGb";
             this.labelRamGb.Size = new System.Drawing.Size(77, 15);
@@ -327,7 +321,7 @@ namespace HardwareMonitor
             // 
             this.lblRamGb.AutoSize = true;
             this.lblRamGb.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblRamGb.Location = new System.Drawing.Point(10, 91);
+            this.lblRamGb.Location = new System.Drawing.Point(9, 106);
             this.lblRamGb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRamGb.Name = "lblRamGb";
             this.lblRamGb.Size = new System.Drawing.Size(21, 19);
@@ -337,90 +331,15 @@ namespace HardwareMonitor
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.button1.Location = new System.Drawing.Point(397, 206);
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.button1.Location = new System.Drawing.Point(369, 236);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(106, 29);
+            this.button1.Size = new System.Drawing.Size(143, 29);
             this.button1.TabIndex = 6;
             this.button1.Text = "📊 Grafikleri Gör";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnAlarmEkle
-            // 
-            this.btnAlarmEkle.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
-            this.btnAlarmEkle.Location = new System.Drawing.Point(8, 205);
-            this.btnAlarmEkle.Margin = new System.Windows.Forms.Padding(2);
-            this.btnAlarmEkle.Name = "btnAlarmEkle";
-            this.btnAlarmEkle.Size = new System.Drawing.Size(131, 29);
-            this.btnAlarmEkle.TabIndex = 7;
-            this.btnAlarmEkle.Text = "＋  Yeni Alarm Ekle";
-            this.btnAlarmEkle.UseVisualStyleBackColor = true;
-            this.btnAlarmEkle.Click += new System.EventHandler(this.btnAlarmEkle_Click);
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label3.Location = new System.Drawing.Point(148, 217);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(28, 15);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Ara:";
-            // 
-            // txtArama
-            // 
-            this.txtArama.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtArama.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtArama.Location = new System.Drawing.Point(179, 211);
-            this.txtArama.Margin = new System.Windows.Forms.Padding(2);
-            this.txtArama.Name = "txtArama";
-            this.txtArama.Size = new System.Drawing.Size(114, 23);
-            this.txtArama.TabIndex = 10;
-            this.txtArama.TextChanged += new System.EventHandler(this.txtArama_TextChanged);
-            // 
-            // btnSil
-            // 
-            this.btnSil.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSil.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.btnSil.Location = new System.Drawing.Point(508, 206);
-            this.btnSil.Margin = new System.Windows.Forms.Padding(2);
-            this.btnSil.Name = "btnSil";
-            this.btnSil.Size = new System.Drawing.Size(128, 29);
-            this.btnSil.TabIndex = 8;
-            this.btnSil.Text = "🗑  Seçili Olanı Sil";
-            this.btnSil.UseVisualStyleBackColor = true;
-            this.btnSil.Click += new System.EventHandler(this.btnSil_Click);
-            // 
-            // btnGeriAl
-            // 
-            this.btnGeriAl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGeriAl.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.btnGeriAl.Location = new System.Drawing.Point(640, 206);
-            this.btnGeriAl.Margin = new System.Windows.Forms.Padding(2);
-            this.btnGeriAl.Name = "btnGeriAl";
-            this.btnGeriAl.Size = new System.Drawing.Size(86, 29);
-            this.btnGeriAl.TabIndex = 9;
-            this.btnGeriAl.Text = "↩  Geri Al";
-            this.btnGeriAl.UseVisualStyleBackColor = true;
-            this.btnGeriAl.Click += new System.EventHandler(this.btnGeriAl_Click);
-            // 
-            // dgvAlarmlar
-            // 
-            this.dgvAlarmlar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvAlarmlar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAlarmlar.Location = new System.Drawing.Point(8, 246);
-            this.dgvAlarmlar.Margin = new System.Windows.Forms.Padding(2);
-            this.dgvAlarmlar.Name = "dgvAlarmlar";
-            this.dgvAlarmlar.RowHeadersWidth = 51;
-            this.dgvAlarmlar.RowTemplate.Height = 28;
-            this.dgvAlarmlar.Size = new System.Drawing.Size(718, 180);
-            this.dgvAlarmlar.TabIndex = 6;
-            this.dgvAlarmlar.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAlarmlar_CellDoubleClick);
             // 
             // systemNotification
             // 
@@ -479,22 +398,28 @@ namespace HardwareMonitor
             this.çıkışToolStripMenuItem1.Text = "Çıkış";
             this.çıkışToolStripMenuItem1.Click += new System.EventHandler(this.çıkışToolStripMenuItem1_Click);
             // 
+            // btnAlarmlariYonet
+            // 
+            this.btnAlarmlariYonet.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAlarmlariYonet.Location = new System.Drawing.Point(196, 236);
+            this.btnAlarmlariYonet.Name = "btnAlarmlariYonet";
+            this.btnAlarmlariYonet.Size = new System.Drawing.Size(137, 29);
+            this.btnAlarmlariYonet.TabIndex = 103;
+            this.btnAlarmlariYonet.Text = "Alarmları Yönet";
+            this.btnAlarmlariYonet.UseVisualStyleBackColor = true;
+            this.btnAlarmlariYonet.Click += new System.EventHandler(this.btnAlarmlariYonet_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(735, 465);
+            this.Controls.Add(this.btnAlarmlariYonet);
             this.Controls.Add(this.pnlHeader);
             this.Controls.Add(this.pnlCpu);
             this.Controls.Add(this.pnlGpu);
             this.Controls.Add(this.pnlRam);
-            this.Controls.Add(this.btnAlarmEkle);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtArama);
-            this.Controls.Add(this.btnSil);
-            this.Controls.Add(this.btnGeriAl);
-            this.Controls.Add(this.dgvAlarmlar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
@@ -507,11 +432,9 @@ namespace HardwareMonitor
             this.pnlGpu.PerformLayout();
             this.pnlRam.ResumeLayout(false);
             this.pnlRam.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAlarmlar)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -540,12 +463,6 @@ namespace HardwareMonitor
         private System.Windows.Forms.Label labelRamGb;
         private System.Windows.Forms.Label lblRamGb;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnAlarmEkle;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtArama;
-        private System.Windows.Forms.Button btnSil;
-        private System.Windows.Forms.Button btnGeriAl;
-        private System.Windows.Forms.DataGridView dgvAlarmlar;
         private System.Windows.Forms.NotifyIcon systemNotification;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem çıkışToolStripMenuItem;
@@ -555,5 +472,6 @@ namespace HardwareMonitor
         private ContextMenuStrip contextMenuStrip2;
         private ToolStripMenuItem windowsİleBaşlatToolStripMenuItem;
         private ToolStripMenuItem çıkışToolStripMenuItem1;
+        private Button btnAlarmlariYonet;
     }
 }
