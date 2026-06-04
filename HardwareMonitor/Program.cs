@@ -14,9 +14,20 @@ namespace HardwareMonitor
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
+                Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+                Application.Run(new Form1());
+            }
+            catch (Exception ex)
+            {
+                string masaustu = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                System.IO.File.WriteAllText(masaustu + "\\BaslangicHatasi.txt", ex.ToString());
+            }
         }
     }
 }

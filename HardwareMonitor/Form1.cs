@@ -24,7 +24,7 @@ namespace HardwareMonitor
         Computer bilgisayar;
         private bool ilkKucultme = true;
         private Icon orijinalIkon;
-        private bool ilkAcilisGizliligi = Environment.GetCommandLineArgs().Contains("-gizli");
+        private bool otomatikBaslatildiMi = Environment.GetCommandLineArgs().Contains("-startup");
 
         private static readonly Color ClrBackground = Color.FromArgb(18, 18, 28);
         private static readonly Color ClrCard       = Color.FromArgb(26, 26, 42);
@@ -37,11 +37,11 @@ namespace HardwareMonitor
 
         protected override void SetVisibleCore(bool value)
         {
-            if (ilkAcilisGizliligi)
+            if (otomatikBaslatildiMi)
             {
                 value = false;
                 if (!this.IsHandleCreated) CreateHandle();
-                ilkAcilisGizliligi = false;
+                otomatikBaslatildiMi = false;
             }
             base.SetVisibleCore(value);
         }
@@ -453,18 +453,17 @@ namespace HardwareMonitor
             contextMenuStrip2.Show(btnAyarlar, new Point(0, btnAyarlar.Height));
         }
 
-        private void windowsİleBaşlatToolStripMenuItem_Click(object sender, EventArgs e)
+        private void windowsIleBaslatToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-            string uygulamaAdi = "RealTimeSysTracker";
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
             if (windowsİleBaşlatToolStripMenuItem.Checked)
             {
-                rk.SetValue(uygulamaAdi, Application.ExecutablePath);
+                rk.SetValue("RealTimeSysTracker", "\"" + Application.ExecutablePath + "\" -startup");
             }
             else
             {
-                rk.DeleteValue(uygulamaAdi, false);
+                rk.DeleteValue("RealTimeSysTracker", false);
             }
         }
 
@@ -477,6 +476,25 @@ namespace HardwareMonitor
         {
             new HardwareMonitor.Forms.FrmAlarmEkle().ShowDialog();
             alarmKurallari = VeritabaniYoneticisi.AlarmlariGetir();
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+
+        }
+
+        private void windowsİleBaşlatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if (windowsİleBaşlatToolStripMenuItem.Checked)
+            {
+                rk.SetValue("RealTimeSysTracker", "\"" + Application.ExecutablePath + "\" -startup");
+            }
+            else
+            {
+                rk.DeleteValue("RealTimeSysTracker", false);
+            }
         }
     }
 }

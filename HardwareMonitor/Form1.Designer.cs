@@ -380,21 +380,21 @@ namespace HardwareMonitor
             this.windowsİleBaşlatToolStripMenuItem,
             this.çıkışToolStripMenuItem1});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(173, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(181, 70);
             this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // windowsİleBaşlatToolStripMenuItem
             // 
             this.windowsİleBaşlatToolStripMenuItem.CheckOnClick = true;
             this.windowsİleBaşlatToolStripMenuItem.Name = "windowsİleBaşlatToolStripMenuItem";
-            this.windowsİleBaşlatToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.windowsİleBaşlatToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.windowsİleBaşlatToolStripMenuItem.Text = "Windows ile Başlat";
             this.windowsİleBaşlatToolStripMenuItem.Click += new System.EventHandler(this.windowsİleBaşlatToolStripMenuItem_Click);
             // 
             // çıkışToolStripMenuItem1
             // 
             this.çıkışToolStripMenuItem1.Name = "çıkışToolStripMenuItem1";
-            this.çıkışToolStripMenuItem1.Size = new System.Drawing.Size(172, 22);
+            this.çıkışToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.çıkışToolStripMenuItem1.Text = "Çıkış";
             this.çıkışToolStripMenuItem1.Click += new System.EventHandler(this.çıkışToolStripMenuItem1_Click);
             // 
@@ -425,6 +425,7 @@ namespace HardwareMonitor
             this.Name = "Form1";
             this.Text = "RealTime SysTracker";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.pnlHeader.ResumeLayout(false);
             this.pnlCpu.ResumeLayout(false);
             this.pnlCpu.PerformLayout();
