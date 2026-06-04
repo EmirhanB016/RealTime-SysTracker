@@ -51,6 +51,7 @@ namespace HardwareMonitor
             InitializeComponent();
             KaranlikTemaUygula();
             ilkFormBoyutu = this.Size;
+            systemNotification.Icon = this.Icon;
 
             RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
             if (rk.GetValue("RealTimeSysTracker") != null)
