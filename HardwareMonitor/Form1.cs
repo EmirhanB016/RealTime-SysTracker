@@ -41,7 +41,6 @@ namespace HardwareMonitor
             {
                 value = false;
                 if (!this.IsHandleCreated) CreateHandle();
-                otomatikBaslatildiMi = false;
             }
             base.SetVisibleCore(value);
         }
@@ -413,6 +412,7 @@ namespace HardwareMonitor
 
         private void systemNotification_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            otomatikBaslatildiMi = false;
             this.Show();
             this.WindowState = FormWindowState.Normal;
             systemNotification.Icon = orijinalIkon;
