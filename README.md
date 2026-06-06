@@ -52,7 +52,7 @@ Proje geliştirilirken UI kilitlenmelerini engellemek ve performansı artırmak 
 
 1. **Repoyu Klonlayın:**
 ```bash
-   git clone [https://github.com/KULLANICI_ADINIZ/RealTimeSysTracker.git](https://github.com/KULLANICI_ADINIZ/RealTimeSysTracker.git)
+   git clone [https://github.com/EmirhanB016/RealTimeSysTracker.git](https://github.com/EmirhanB016/RealTimeSysTracker.git)
 ```
 2. **Çözümü Açın:**
 
